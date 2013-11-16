@@ -18,5 +18,6 @@
             Password <input type="password" name="password"><br>
             <input type="submit" name="Submit Query">
         </form>
+        <li><a href="createUser.jsp">Sign Up</a></li>
     </body>
 </html>
