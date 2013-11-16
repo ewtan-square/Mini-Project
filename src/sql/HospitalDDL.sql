@@ -9,18 +9,15 @@ DROP TABLE IF EXISTS doctor;
 DROP TABLE IF EXISTS administrator; 
 DROP TABLE IF EXISTS account; 
 
-
-CREATE TABLE Administrator (
-	username varchar(16) NOT NULL UNIQUE,
-	password varchar(256) NOT NULL,
-	PRIMARY KEY(username)
-);
-
 CREATE TABLE Account (
 	ID INTEGER NOT NULL AUTO_INCREMENT, 
 	username VARCHAR(16) NOT NULL UNIQUE,
 	password VARCHAR(256) NOT NULL,
 	PRIMARY KEY(ID)
+);
+
+CREATE TABLE Administrator (
+	FOREIGN KEY(D_ID) REFERENCES Account(ID)
 );
 
 CREATE TABLE Doctor (
@@ -30,6 +27,10 @@ CREATE TABLE Doctor (
 	DoB DATE NOT NULL,
 	gender VARCHAR(1),
 	license_year INTEGER NOT NULL,
+	province VARCHAR(2) NOT NULL,
+	city VARCHAR(32) NOT NULL,
+	postal_code VARCHAR(6) NOT NULL,
+	street_address VARCHAR(32) NOT NULL,
 	PRIMARY KEY (D_ID),
 	FOREIGN KEY (D_ID) REFERENCES Account(ID)
 );
@@ -41,6 +42,10 @@ CREATE TABLE Patient (
 	email VARCHAR(64) NOT NULL,
 	DoB DATE NOT NULL,
 	gender VARCHAR(1),
+	province VARCHAR(2) NOT NULL,
+	city VARCHAR(32) NOT NULL,
+	postal_code VARCHAR(6) NOT NULL,
+	street_address VARCHAR(32) NOT NULL,
 	PRIMARY KEY (P_ID),
 	FOREIGN KEY (P_ID) REFERENCES Account(ID)
 );
@@ -53,16 +58,6 @@ CREATE TABLE Work_Address (
 	street_address VARCHAR(32) NOT NULL,
 	PRIMARY KEY (D_ID, province, city, postal_code, street_address),
 	FOREIGN KEY (D_ID) REFERENCES Doctor(D_ID)
-);
-
-CREATE TABLE Home_Address (
-	ID INTEGER NOT NULL,
-	province VARCHAR(2) NOT NULL,
-	city VARCHAR(32) NOT NULL,
-	postal_code VARCHAR(6) NOT NULL,
-	street_address VARCHAR(32) NOT NULL,
-	PRIMARY KEY (ID),
-	FOREIGN KEY (ID) REFERENCES Account(ID)
 );
 
 CREATE TABLE Treats (
@@ -88,12 +83,12 @@ CREATE TABLE Review (
 	rating INTEGER NOT NULL,
 	recommendation boolean NOT NULL,
 	comment_text VARCHAR(255),
-	PRIMARY KEY (D_ID, P_ID, review_date),
+	PRIMARY KEY (D_ID, P_ID),
 	FOREIGN KEY (D_ID) REFERENCES Doctor(D_ID),
 	FOREIGN KEY (P_ID) REFERENCES Patient(P_ID)
 );
 
-CREATE TABLE Doctor_Specialization (
+CREATE TABLE Specializations (
 	D_ID INTEGER NOT NULL,
 	area VARCHAR(32) NOT NULL,
 	PRIMARY KEY (D_ID, area),
@@ -130,5 +125,5 @@ INSERT INTO treats VALUES (2,4);
 INSERT INTO friendship VALUES (3,4);
 INSERT INTO friendship VALUES (4,3);
 
-INSERT INTO review VALUES (1,3,CURDATE(),0, TRUE, 'REALLY GREAT... JK');
-INSERT INTO review VALUES (2,4,CURDATE(),5, TRUE, 'I wish she could hear me better');
+INSERT INTO Review VALUES (1,3,CURDATE(),0, TRUE, 'REALLY GREAT... JK');
+INSERT INTO Review VALUES (2,4,CURDATE(),5, TRUE, 'I wish she could hear me better');
