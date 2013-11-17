@@ -23,10 +23,11 @@ public class Patient {
     private String homeStreet;
     private ArrayList<Doctor> doctors;
     private ArrayList<Patient> friends;
+    private ArrayList<Review> reviews;
     
     public Patient(int patientID, String firstName, String gender, String lastName, String dateOfBirth,
             String email, String homeProvince, String homeCity, String homePostalCode, String homeStreet, 
-            ArrayList<Doctor> doctors, ArrayList<Patient> friends)
+            ArrayList<Doctor> doctors, ArrayList<Patient> friends, ArrayList<Review> reviews)
     {
         this.patientID = patientID;
         this.firstName = firstName;
@@ -40,6 +41,7 @@ public class Patient {
         this.dateOfBirth = dateOfBirth;
         this.doctors = doctors;
         this.friends = friends;
+        this.reviews =reviews;
     }
     
     public int getPatientID() { return patientID; }
@@ -66,4 +68,6 @@ public class Patient {
     public void addDoctor(Doctor doctor) { this.doctors.add(doctor); }
     public ArrayList<Patient> getFriends() { return friends; }
     public void addFriends(Patient patient) { this.friends.add(patient); }
+    public ArrayList<Review> getReviews() { return reviews; }
+    public void addReview(Review review) { this.reviews.add(review); }
 }
