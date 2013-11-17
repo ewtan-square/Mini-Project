@@ -13,6 +13,6 @@
     </head>
     <body>
         <h1>Hellooooooo Doctor!</h1>
-        <li><a href="doctorHome.jsp">Update your work address(es) (Page not created yet)</a></li>
+        <li><a href="doctorProfile.jsp">Update your work address(es) or Add Specialties</a></li>
     </body>
 </html>
