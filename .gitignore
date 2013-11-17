@@ -1,3 +1,17 @@
 nbproject/private/
 build/web/WEB-INF/*.class
 build/web/*.jsp
+nbproject/private/
+build/web/WEB-INF/*.class
+build/web/*.jsp 
+build/web/WEB-INF/classes/miniProject/UpdateDoctorServlet.class
+build/web/WEB-INF/classes/miniProject/loginPageServlet.class
+build/web/WEB-INF/classes/miniProject/newUserServlet.class
+build/web/WEB-INF/classes/miniProject/DoctorResultsServlet.class
+build/web/WEB-INF/classes/miniProject/DoctorSearchServlet.class
+build/web/WEB-INF/classes/miniProject/FriendSearchServlet.class
+build/web/WEB-INF/classes/miniProject/ReviewServlet.class
+build/web/WEB-INF/classes/miniProject/UpdateDoctorServlet.class
+build/web/WEB-INF/classes/miniProject/loginPageServlet.class
+build/web/WEB-INF/classes/miniProject/newUserServlet.class
+
