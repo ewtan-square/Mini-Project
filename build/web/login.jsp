@@ -16,7 +16,7 @@
         <form method="post" action="Login">
             Enter employee data:
             <p>       
-                Username: <input type="text" name="userID" size="20" autofocus><br/>
+                Username: <input type="text" name="username" size="20" autofocus><br/>
                 Password: <input type="password" name="userPass" size="20"><br/>
             <p> <input type="submit" value="Submit">
         </form>
