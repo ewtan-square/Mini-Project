@@ -13,13 +13,25 @@
     </head>
     <body>
         <h1>Hello New Patient!</h1>
-        <form method="post" action="newUserServlet?type=patient">
-            Enter employee data:
+        <form method="post" action="newUserServlet?type=doctor">
+            Enter the following information:
             <p>       
-                Employee ID: <input type="text" name="empID" size="20" autofocus><br/>
-                Employee name: <input type="text" name="empName" size="20"><br/> 
-                Job:<input type="text" name="job" size="20"><br/>
-                Salary: <input type="text" name="salary" size="20"><br/>
+                Username: <input type="text" name="firstName" size="20"><br/> 
+                Password: <input type="text" name="password" size="20"><br/>      
+                First name: <input type="text" name="firstName" size="20"><br/> 
+                Last name: <input type="text" name="lastName" size="20"><br/> 
+                Gender: 
+                <select name="gender"> 
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                </select><br/>
+                Birthday:<input type="date" name="birthday" size="20"><br/>
+                E-Mail: <input type="text" name="email" size="20"><br/>
+                Home Address<br/>
+                Province: <input type="text" name="province" size="20"><br/>
+                City: <input type="text" name="city" size="20"><br/>
+                Postal Code: <input type="text" name="postalCode" size="20"><br/>
+                Street Address: <input type="text" name="streetAddress" size="20"><br/>
             <p> <input type="submit" value="Submit">
         </form>
     </body>

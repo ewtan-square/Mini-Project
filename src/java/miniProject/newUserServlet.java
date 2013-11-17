@@ -29,24 +29,74 @@ public class newUserServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet newUserServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet newUserServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
-        }
-    }
+        String newUserType = request.getParameter("type");
 
+        String url = "/fancyError.jsp";
+        try {
+            if (newUserType.equals("patient")) {
+                addPatientHelper(request, response);
+                url = "/success.jsp";
+            }
+            else if (newUserType.equals("doctor")) {
+                addDoctorHelper(request, response);
+                url = "/success.jsp";
+            }
+        } 
+        catch (Exception e) {
+            request.setAttribute("exception", e);
+            url = "/fancyError.jsp";
+        }
+        
+        getServletContext().getRequestDispatcher(url).forward(request, response);
+    }
+    
+    protected void addPatientHelper(HttpServletRequest request, HttpServletResponse response)
+            throws java.sql.SQLException, ClassNotFoundException {
+        String username = request.getParameter("firstName");
+        if (username.equals("")) {
+            // Check if username exists already
+            throw new RuntimeException("Username cannot be empty");
+        }        
+        
+        String userFirstName = request.getParameter("firstName");
+        String userLastName = request.getParameter("lastName");
+        if (userFirstName.equals("") || userLastName.equals("")) {
+            throw new RuntimeException("Name cannot be empty");
+        }
+        
+        String gender = request.getParameter("gender");
+        if (gender.equals("")) {
+            throw new RuntimeException("Must Select Gender!");
+        }
+        
+        String birthday = request.getParameter("birthday");
+        if (birthday.equals("")) {
+            throw new RuntimeException("Birthday must be selected");
+        }
+        
+        String email = request.getParameter("email");
+        if (email.equals("")) {
+            throw new RuntimeException("Email cannot be empty");
+        }
+        
+        String province = request.getParameter("province");
+        String city = request.getParameter("city");
+        String postalcode = request.getParameter("postalCode");
+        String streetAddress = request.getParameter("streetAddress");
+        if (province.equals("") || city.equals("") || postalcode.equals("") || streetAddress.equals("") || ) {
+            throw new RuntimeException("Address is incomplete");
+        }     
+        
+        Employee em = new Employee(empID, empName, job, deptID, salary);
+        Lab3DBAO.addEmployee(em);
+        ArrayList ret = Lab3DBAO.getEmployees();
+        request.setAttribute("employeeList", ret);
+    }
+    
+    protected void addDoctorHelper(HttpServletRequest request, HttpServletResponse response)
+            throws java.sql.SQLException, ClassNotFoundException {
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
