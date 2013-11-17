@@ -13,8 +13,8 @@
     </head>
     <body>
         <h1>Login Now!</h1>
-        <form method="post" action="Login">
-            Enter employee data:
+        <form method="post" action="loginPageServlet">
+            Enter username and password:
             <p>       
                 Username: <input type="text" name="username" size="20" autofocus><br/>
                 Password: <input type="password" name="userPass" size="20"><br/>
