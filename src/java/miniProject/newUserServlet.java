@@ -52,7 +52,7 @@ public class newUserServlet extends HttpServlet {
     
     protected void addPatientHelper(HttpServletRequest request, HttpServletResponse response)
             throws java.sql.SQLException, ClassNotFoundException {
-        String username = request.getParameter("firstName");
+        String username = request.getParameter("username");
         if (username.equals("")) {
             // Check if username exists already
             throw new RuntimeException("Username cannot be empty");
@@ -66,7 +66,7 @@ public class newUserServlet extends HttpServlet {
         
         String gender = request.getParameter("gender");
         if (gender.equals("")) {
-            throw new RuntimeException("Must Select Gender!");
+            throw new RuntimeException("Must Select Gender");
         }
         
         String birthday = request.getParameter("birthday");
@@ -83,12 +83,12 @@ public class newUserServlet extends HttpServlet {
         String city = request.getParameter("city");
         String postalcode = request.getParameter("postalCode");
         String streetAddress = request.getParameter("streetAddress");
-        if (province.equals("") || city.equals("") || postalcode.equals("") || streetAddress.equals("") || ) {
-            throw new RuntimeException("Address is incomplete");
+        if (province.equals("") || city.equals("") || postalcode.equals("") || streetAddress.equals("")) {
+            throw new RuntimeException("Address is must be complete");
         }     
         
-        Employee em = new Employee(empID, empName, job, deptID, salary);
-        Lab3DBAO.addEmployee(em);
+        Patient em = new Employee(empID, empName, job, deptID, salary);
+        miniProject.addEmployee(em);
         ArrayList ret = Lab3DBAO.getEmployees();
         request.setAttribute("employeeList", ret);
     }

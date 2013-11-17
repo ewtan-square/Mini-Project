@@ -16,7 +16,7 @@
         <form method="post" action="newUserServlet?type=doctor">
             Enter the following information:
             <p>       
-                Username: <input type="text" name="firstName" size="20"><br/> 
+                Username: <input type="text" name="username" size="20"><br/> 
                 Password: <input type="text" name="password" size="20"><br/>      
                 First name: <input type="text" name="firstName" size="20"><br/> 
                 Last name: <input type="text" name="lastName" size="20"><br/> 
