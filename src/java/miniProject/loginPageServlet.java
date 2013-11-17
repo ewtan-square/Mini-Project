@@ -28,12 +28,13 @@ public class loginPageServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("userID");
+        String username = request.getParameter("username");
         String password = request.getParameter("userPass");
         
         String url;
         try {
             String accType = "patient"; // MiniProject.getAccountType(username);
+            request.setAttribute("username", username);
             if (accType == "patient") {
                 url = "/patientHome.jsp";
             }
