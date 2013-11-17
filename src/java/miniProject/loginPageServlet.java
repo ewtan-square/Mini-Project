@@ -33,7 +33,7 @@ public class loginPageServlet extends HttpServlet {
         
         String url;
         try {
-            String accType = "patient"; // MiniProject.getAccountType(username);
+            String accType = "doctor"; // MiniProject.getAccountType(username);
             if (accType == "patient") {
                 url = "/patientHome.jsp";
             }
