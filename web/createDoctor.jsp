@@ -14,12 +14,35 @@
     <body>
         <h1>Hello New Doctor!</h1>
         <form method="post" action="newUserServlet?type=doctor">
-            Enter employee data:
+            Enter the following information:
             <p>       
-                Employee ID: <input type="text" name="empID" size="20" autofocus><br/>
-                Employee name: <input type="text" name="empName" size="20"><br/> 
-                Job:<input type="text" name="job" size="20"><br/>
-                Salary: <input type="text" name="salary" size="20"><br/>
+                Username: <input type="text" name="firstName" size="20"><br/>  
+                Password: <input type="text" name="password" size="20"><br/>      
+                First name: <input type="text" name="firstName" size="20"><br/> 
+                Last name: <input type="text" name="lastName" size="20"><br/> 
+                Gender: 
+                <select name="gender"> 
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                </select><br/>
+                Birthday:<input type="date" name="birthday" size="20"><br/>
+                Specialization (You can add more later):<input type="date" name="specialization" size="20"><br/>
+                License Year: 
+                <select name="licenseYear"> 
+                    <%
+                        for (int i = 1900; i<2013; i++) {
+                    %>
+                    <option value="<%=i%>"><%=i%></option>
+                    <%
+                        }
+                    %>
+                </select><br/> 
+                Home Address<br/>
+                Province: <input type="text" name="province" size="20"><br/>
+                City: <input type="text" name="city" size="20"><br/>
+                Postal Code: <input type="text" name="postalCode" size="20"><br/>
+                Street Address: <input type="text" name="streetAddress" size="20"><br/>
+                Password: <input type="text" name="password" size="20"><br/>
             <p> <input type="submit" value="Submit">
         </form>
     </body>

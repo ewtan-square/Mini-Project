@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class Patient {
     private int patientID;
+    private String username;
     private String firstName;
     private String gender;
     private String lastName;
@@ -25,11 +26,12 @@ public class Patient {
     private ArrayList<Patient> friends;
     private ArrayList<Review> reviews;
     
-    public Patient(int patientID, String firstName, String gender, String lastName, String dateOfBirth,
+    public Patient(int patientID, String username, String firstName, String gender, String lastName, String dateOfBirth,
             String email, String homeProvince, String homeCity, String homePostalCode, String homeStreet, 
             ArrayList<Doctor> doctors, ArrayList<Patient> friends, ArrayList<Review> reviews)
     {
         this.patientID = patientID;
+        this.username = username;
         this.firstName = firstName;
         this.gender = gender;
         this.lastName = lastName;
@@ -48,6 +50,8 @@ public class Patient {
     public void setPatientID(int patientID) { this.patientID = patientID; }
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
     public String getLastName() { return lastName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
     public String getDOB() { return dateOfBirth; }
