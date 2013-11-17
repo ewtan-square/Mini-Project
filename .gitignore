@@ -4,3 +4,8 @@ nbproject/genfiles.properties
 nbproject/private/private.properties
 nbproject/project.properties
 nbproject/project.xml
+*.class
+# Package Files #
+*.jar
+*.war
+*.ear
