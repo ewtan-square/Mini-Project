@@ -33,11 +33,12 @@ public class loginPageServlet extends HttpServlet {
         
         request.getSession().setAttribute("username", username);
         request.getSession().setAttribute("userPass", password);
-                
+        
         String url;
         try {
             String accType = "doctor"; // MiniProject.getAccountType(username);
             if (accType == "patient") {
+                //request.getSession().setAttribute("doctor", url);
                 url = "/patientHome.jsp";
             }
             else if (accType == "doctor") {
