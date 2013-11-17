@@ -36,11 +36,14 @@ public class newUserServlet extends HttpServlet {
         try {
             if (newUserType.equals("patient")) {
                 addPatientHelper(request, response);
-                url = "/success.jsp";
+                url = "/login.jsp";
             }
             else if (newUserType.equals("doctor")) {
                 addDoctorHelper(request, response);
-                url = "/success.jsp";
+                url = "/login.jsp";
+            }
+            else {
+                url = "/fancyError.jsp";
             }
         } 
         catch (Exception e) {
