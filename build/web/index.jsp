@@ -13,7 +13,11 @@
     </head>
     <body>
         <h2>Welcome to Rate My Doctor!</h2>
-        Username<input type="text" name="name"><br>
-        Password<input type="password" name="password"><br>
+        <form method="post" action="loginPageServlet">
+            Username <input type="text" name="name"><br>
+            Password <input type="password" name="password"><br>
+            <input type="submit" name="Submit Query">
+        </form>
+        <li><a href="createUser.jsp">Sign Up</a></li>
     </body>
 </html>
