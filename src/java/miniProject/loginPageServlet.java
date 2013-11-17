@@ -44,7 +44,7 @@ public class loginPageServlet extends HttpServlet {
                 url = "/adminHome.jsp";
             }
             else {
-                url = "/loginFailed.jsp";
+                url = "/fancyError.jsp";
             }
         } catch (Exception e) {
             request.setAttribute("exception", e);
