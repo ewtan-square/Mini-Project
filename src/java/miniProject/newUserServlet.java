@@ -37,6 +37,7 @@ public class newUserServlet extends HttpServlet {
         
         String url = "/fancyError.jsp";
         try {
+            newUserType.equals("doctor");
             if (newUserType.equals("patient")) {
                 addPatientHelper(request, response);
                 url = "/login.jsp";

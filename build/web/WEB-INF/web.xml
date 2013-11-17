@@ -40,6 +40,10 @@
         <servlet-name>ViewReviewsServlet</servlet-name>
         <servlet-class>miniProject.DoctorResultsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateDoctorServlet</servlet-name>
+        <servlet-class>miniProject.UpdateDoctorServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loginPageServlet</servlet-name>
         <url-pattern>/loginPageServlet</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>ViewReviewsServlet</servlet-name>
         <url-pattern>/ViewReviewsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateDoctorServlet</servlet-name>
+        <url-pattern>/UpdateDoctorServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
