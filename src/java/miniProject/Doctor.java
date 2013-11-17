@@ -11,7 +11,6 @@ import java.util.ArrayList;
  * @author Francis
  */
 public class Doctor {
-    private int docID;
     private String username;
     private String firstName;
     private String gender;
@@ -25,12 +24,12 @@ public class Doctor {
     private String homeStreet;
     private ArrayList<WorkAddress> workAddresses;
     private ArrayList<String> specializations;
+    private ArrayList<Patient> patients;
+    private ArrayList<Review> reviews;
     
-    public Doctor(int docID, String username, String firstName, String lastName, String gender, String dateOfBirth,
-            int licenseYear, String homeProvince, String homeCity, String homePostalCode, String homeStreet, 
-            ArrayList<WorkAddress> workAddresses, ArrayList<String> specializations, int averageStarRating)
+    public Doctor(String username, String firstName, String lastName, String gender, String dateOfBirth,
+            int licenseYear, String homeProvince, String homeCity, String homePostalCode, String homeStreet)
     {
-        this.docID = docID;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,13 +40,8 @@ public class Doctor {
         this.homeProvince = homeProvince;
         this.homePostalCode = homePostalCode;
         this.homeStreet = homeStreet;
-        this.workAddresses = workAddresses;
-        this.specializations = specializations;
-        this.averageStarRating = averageStarRating;
     }
     
-    public int getDocID() { return docID; }
-    public void setDocID(int docID) { this.docID = docID; }
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public String getUsername() { return username; }
@@ -70,8 +64,16 @@ public class Doctor {
     public void setHomeStreet(String homeStreet) { this.homeStreet = homeStreet; }
     public ArrayList<WorkAddress> getWorkAddresses() { return workAddresses; }
     public void addWorkAddress(WorkAddress workAddress) { this.workAddresses.add(workAddress); }
+
+    public void setWorkAddress(ArrayList<WorkAddress> addresses) {this.workAddresses = addresses;}
+    public ArrayList<Patient> getPatients() { return patients; }
+    public void addPatient(Patient patient) { this.patients.add(patient); }
+    public ArrayList<Review> getReviews() { return reviews; }
+    public void addReview(Review review) { this.reviews.add(review); }
+
     public ArrayList<String> getSpecializations() { return specializations; }
     public void addSpecialization(String specialization) { this.specializations.add(specialization); }
+    public void setSpecialization(ArrayList<String> specializations) {this.specializations = specializations;}
     public int getAverageStarRating() { return averageStarRating; }
     public void setAverageStarRating(int averageStarRating) { this.averageStarRating = averageStarRating; }
 }

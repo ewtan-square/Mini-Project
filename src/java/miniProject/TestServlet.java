@@ -5,18 +5,24 @@
 package miniProject;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Francis
+ * @author jonathan
  */
-public class loginPageServlet extends HttpServlet {
-/**
+@WebServlet(name = "TestServlet", urlPatterns = {"/TestServlet"})
+public class TestServlet extends HttpServlet {
+
+    /**
      * Processes requests for both HTTP
      * <code>GET</code> and
      * <code>POST</code> methods.
@@ -25,38 +31,39 @@ public class loginPageServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     */    
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = (String)request.getParameter("username");
-        String password = (String)request.getParameter("userPass");
-        
-        request.getSession().setAttribute("username", username);
-        request.getSession().setAttribute("userPass", password);
-        
-        String url;
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         try {
-            String accType = "patient"; // MiniProject.getAccountType(username);
-            request.setAttribute("username", username);
-            if (accType == "patient") {
-                //request.getSession().setAttribute("doctor", url);
-                url = "/patientHome.jsp";
-            }
-            else if (accType == "doctor") {
-                url = "/doctorHome.jsp";
-            }
-            else if (accType == "admin") {
-                url = "/adminHome.jsp";
-            }
-            else {
-                url = "/fancyError.jsp";
-            }
-        } catch (Exception e) {
-            request.setAttribute("exception", e);
-            url = "/fancyError.jsp";
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet TestServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println(testQuery());
+            out.println("<h1>Servlet TestServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        } finally {            
+            out.close();
         }
+    }
+    
+    public String testQuery(){
+        String blah = "wtf";
+        try{
+            blah = UserDB.getAccountType("ewtan");
+        }
+        catch (Exception e) {
+            blah = e.getMessage();
+        }
+        
+        return blah;
 
-        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -98,5 +105,5 @@ public class loginPageServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>    
+    }// </editor-fold>
 }
