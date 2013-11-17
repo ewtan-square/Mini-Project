@@ -1,0 +1,49 @@
+<%-- 
+    Document   : createUser
+    Created on : 16-Nov-2013, 5:31:38 PM
+    Author     : Francis
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>RateMyDoctor</title>
+    </head>
+    <body>
+        <h1>Hello New Doctor!</h1>
+        <form method="post" action="newUserServlet?type=doctor">
+            Enter the following information:
+            <p>       
+                Username: <input type="text" name="firstName" size="20"><br/>  
+                Password: <input type="text" name="password" size="20"><br/>      
+                First name: <input type="text" name="firstName" size="20"><br/> 
+                Last name: <input type="text" name="lastName" size="20"><br/> 
+                Gender: 
+                <select name="gender"> 
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                </select><br/>
+                Birthday:<input type="date" name="birthday" size="20"><br/>
+                Specialization (You can add more later):<input type="date" name="specialization" size="20"><br/>
+                License Year: 
+                <select name="licenseYear"> 
+                    <%
+                        for (int i = 1900; i<2013; i++) {
+                    %>
+                    <option value="<%=i%>"><%=i%></option>
+                    <%
+                        }
+                    %>
+                </select><br/> 
+                Home Address<br/>
+                Province: <input type="text" name="province" size="20"><br/>
+                City: <input type="text" name="city" size="20"><br/>
+                Postal Code: <input type="text" name="postalCode" size="20"><br/>
+                Street Address: <input type="text" name="streetAddress" size="20"><br/>
+                Password: <input type="text" name="password" size="20"><br/>
+            <p> <input type="submit" value="Submit">
+        </form>
+    </body>
+</html>
