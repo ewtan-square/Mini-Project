@@ -4,9 +4,17 @@
         <servlet-name>loginPageServlet</servlet-name>
         <servlet-class>miniProject.loginPageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>newUserServlet</servlet-name>
+        <servlet-class>miniProject.newUserServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loginPageServlet</servlet-name>
         <url-pattern>/loginPageServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newUserServlet</servlet-name>
+        <url-pattern>/newUserServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

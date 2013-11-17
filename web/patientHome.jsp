@@ -13,5 +13,8 @@
     </head>
     <body>
         <h1>Hello Patient!</h1>
+        <li><a href="patientHome.jsp">Review a Doctor (Page not created)</a></li>        
+        <li><a href="patientHome.jsp">Find a Doctor (Page not created)</a></li>        
+        <li><a href="patientHome.jsp">Find a Friend (Page not created)</a></li>
     </body>
 </html>
