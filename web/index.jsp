@@ -13,6 +13,7 @@
     </head>
     <body>
         <h2>Welcome to Rate My Doctor!</h2>
-        
+        <li><a href="login.jsp">Login</a></li>        
+        <li><a href="newaccount.jsp">Create Account</a></li>
     </body>
 </html>
