@@ -26,7 +26,7 @@
                     <option value="F">Female</option>
                 </select><br/>
                 Birthday:<input type="date" name="birthday" size="20"><br/>
-                Specialization (You can add more later):<input type="date" name="birthday" size="20"><br/>
+                Specialization (You can add more later):<input type="date" name="specialization" size="20"><br/>
                 License Year: 
                 <select name="licenseYear"> 
                     <%
