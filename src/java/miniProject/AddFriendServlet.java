@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Francis
  */
-public class FriendSearchServlet extends HttpServlet {
+public class AddFriendServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -31,24 +31,49 @@ public class FriendSearchServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String url;
-        String alias = request.getParameter("alias");
+        String strQueryNum = request.getParameter("qnum");
+        String username = (String)request.getSession().getAttribute("username");
+        String alias = "";
+        int intQueryNum = Integer.parseInt(strQueryNum);
+
+        String patientUsername = request.getParameter("pNum");
         try {
-            /* TODO output your page here. You may use following sample code. */
-            //ArrayList ret = MiniProjectDBAO.queryPatients(username,alias);
-            //ArrayList friend = MiniProjectDBAO.queryFriends(username);
-            ArrayList<Patient> friends = new ArrayList<Patient>();
-            ArrayList<Patient> ret = new ArrayList<Patient>();
-            Patient temp;
-            temp = new Patient("harvey","","","","","","","","","",friends);
-            ret.add(temp);
-            
             url = "/friendResults.jsp";
-            request.setAttribute("patientList",ret);
-            request.setAttribute("friendList",friends);
-        }catch (Exception e) {
-            request.setAttribute("exception", e);
-            url = "/fancyError.jsp";
+            //Add Friend
+            if(intQueryNum == 1){
+                //ADD AND RETURN FRIENDS OF PATIENT
+                //ArrayList friends = MiniProjectDBAO.addFriend(username,patientUsername);
+                //RETURN PATIENTS WHO ARE NOT FRIENDS
+                //ArrayList ret = MiniProjectDBAO.queryPatients(username,alias);
+                
+                ArrayList<Patient> friends = new ArrayList<Patient>();
+                ArrayList<Patient> ret = new ArrayList<Patient>();
+                Patient temp;
+                temp = new Patient("harvey","","","","","","","","","",ret);
+                friends.add(temp);
+                request.setAttribute("patientList",ret);
+                request.setAttribute("friendList",friends);
+            }
+            //Remove Friend
+            else if(intQueryNum == 2){
+                //REMOVE AND RETURN FRIENDS OF PATIENT
+                //ArrayList friends = MiniProjectDBAO.removeFriend(username,patientUsername);
+                //RETURN PATIENTS WHO ARE NOT FRIENDS
+                //ArrayList ret = MiniProjectDBAO.queryPatients(username,alias);
+                
+                ArrayList<Patient> friends = new ArrayList<Patient>();
+                ArrayList<Patient> ret = new ArrayList<Patient>();
+                Patient temp;
+                temp = new Patient("harvey","","","","","","","","","",friends);
+                ret.add(temp);
+                request.setAttribute("patientList",ret);
+                request.setAttribute("friendList",friends);
+            }
+            /* TODO output your page here. You may use following sample code. */
+        } catch (Exception e) {
+            url="/fancyError.jsp";
         }
+        
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 

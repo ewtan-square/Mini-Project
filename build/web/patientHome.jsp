@@ -11,10 +11,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Rate My Doctor</title>
     </head>
+    <%! String username;%>
+    <% username = (String)request.getAttribute("username"); %>
     <body>
-        <h1>Hello Patient!</h1>
+        <%
+        out.print("<h2>Hello ");
+        out.print(username);
+    %>
+    </h2>
         <li><a href="DoctorResultsServlet?qnum=2">Review a Doctor (Page not created)</a></li>        
         <li><a href="doctorSearch.jsp">Find a Doctor (Page not created)</a></li>        
-        <li><a href="patientHome.jsp">Find a Friend (Page not created)</a></li>
+        <li><a href="friendSearch.jsp">Find a Friend (Page not created)</a></li>
     </body>
 </html>

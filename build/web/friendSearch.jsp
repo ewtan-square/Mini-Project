@@ -13,6 +13,8 @@
     </head>
     <body>
         <h1>Search for other users</h1>
+        <form method="post" action="FriendSearchServlet">
         Alias: <input type="text" name="alias" size="20"><br/>
+        <input type="submit" value="Search">
     </body>
 </html>

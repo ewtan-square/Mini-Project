@@ -55,11 +55,11 @@
                     out.print("</td><td>");
                     out.print(doc.getAverageStarRating());
                     out.print("</td><td>");
-                    out.print("<button type=\"submit\" name=\"review\" onclick=\"location.href='DoctorResultsServlet?qnum=1&docNum=");
+                    out.print("<button type=\"submit\" name=\"ViewReview\" onclick=\"location.href='DoctorResultsServlet?qnum=1&docNum=");
                     out.print(doc.getUsername());
                     out.print("';\">View Reviews</button>");
                     out.print("</td><td>");
-                    out.print("<button type=\"submit\" name=\"review\" onclick=\"location.href='DoctorResultsServlet?qnum=2&docNum=");
+                    out.print("<button type=\"submit\" name=\"CreateReview\" onclick=\"location.href='DoctorResultsServlet?qnum=2&docNum=");
                     out.print(doc.getUsername());
                     out.print("';\">Create Review</button>");
                     out.println("</td></tr>");
