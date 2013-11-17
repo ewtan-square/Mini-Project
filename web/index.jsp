@@ -13,6 +13,6 @@
     </head>
     <body>
         <h2>Welcome to Rate My Doctor!</h2>
-        
+        <a href="test_query.jsp">Link to Test Queries</a><br>
     </body>
 </html>
