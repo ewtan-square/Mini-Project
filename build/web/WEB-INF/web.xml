@@ -9,6 +9,14 @@
         <url-pattern>/DoctorSearchServlet</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>DoctorResultsServlet</servlet-name>
+        <servlet-class>miniProject.DoctorResultsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DoctorResultsServlet</servlet-name>
+        <url-pattern>/DoctorResultsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>FriendSearchServlet</servlet-name>
         <servlet-class>miniProject.FriendSearchServlet</servlet-class>
     </servlet>
@@ -28,6 +36,10 @@
         <servlet-name>loginPageServlet</servlet-name>
         <servlet-class>miniProject.loginPageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewReviewsServlet</servlet-name>
+        <servlet-class>miniProject.DoctorResultsServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loginPageServlet</servlet-name>
         <url-pattern>/loginPageServlet</url-pattern>
@@ -40,7 +52,10 @@
         <servlet-name>newUserServlet</servlet-name>
         <url-pattern>/newUserServlet</url-pattern>
     </servlet-mapping>
-        
+    <servlet-mapping>
+        <servlet-name>ViewReviewsServlet</servlet-name>
+        <url-pattern>/ViewReviewsServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
