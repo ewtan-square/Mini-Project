@@ -12,7 +12,10 @@
         <title>Rate My Doctor</title>
     </head>
     <body>
-        <h1>Hellooooooo Doctor!</h1>
+        <%! String username = "";%>
+        <% username = ((String)request.getSession().getAttribute("username") == null) ? 
+                            "" : (String) request.getSession().getAttribute("username"); %>
+        <h1>Hellooooooo Doctor, <%= username%>!</h1>
         <li><a href="doctorProfile.jsp">Update your work address(es) or Add Specialties</a></li>
     </body>
 </html>

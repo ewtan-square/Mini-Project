@@ -25,12 +25,15 @@ public class loginPageServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     */
+     */    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("userID");
-        String password = request.getParameter("userPass");
+        String username = (String)request.getParameter("username");
+        String password = (String)request.getParameter("userPass");
         
+        request.getSession().setAttribute("username", username);
+        request.getSession().setAttribute("userPass", password);
+                
         String url;
         try {
             String accType = "doctor"; // MiniProject.getAccountType(username);
