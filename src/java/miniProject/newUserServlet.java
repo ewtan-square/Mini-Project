@@ -189,9 +189,8 @@ public class newUserServlet extends HttpServlet {
         ArrayList<Review> tmp3 = new ArrayList<Review>();
         ArrayList<String> tmp4 = new ArrayList<String>();
         int ilicenseYear = Integer.parseInt(licenseYear);
-        Doctor doctor = new Doctor(-1 , username, userFirstName, userLastName, 
-                gender, birthday, ilicenseYear, province, city, postalcode, streetAddress, 
-                tmp, tmp2, tmp3, tmp4,1);
+        Doctor doctor = new Doctor(username, userFirstName, userLastName, 
+                gender, birthday, ilicenseYear, province, city, postalcode, streetAddress);
         // miniProject.addEmployee(em);
         // ArrayList ret = miniProject.getEmployees();
         // request.setAttribute("employeeList", ret);
