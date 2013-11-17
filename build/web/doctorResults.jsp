@@ -24,7 +24,7 @@
             if (doctorList != null) {
                 out.println("<table border=1>");
                 out.println("<tr><th>First Name</th><th>Last Name</th><th>gender</th><th>Work Address</th>"
-                        + "<th>specialization</th><th>license year</th><th>Average Rating</th>");
+                        + "<th>specialization</th><th>license year</th><th>Average Rating</th><th colspan=\"2\">Reviews</th></tr>");
                 for (Doctor doc : doctorList) {
                     out.println("<tr><td>");
                     out.print(doc.getFirstName());
@@ -54,7 +54,15 @@
                     out.print(doc.getLicenseYear());
                     out.print("</td><td>");
                     out.print(doc.getAverageStarRating());
-                    out.println("</td><td></tr>");
+                    out.print("</td><td>");
+                    out.print("<button type=\"submit\" name=\"review\" onclick=\"location.href='DoctorResultsServlet?qnum=1&docNum=");
+                    out.print(doc.getUsername());
+                    out.print("';\">View Reviews</button>");
+                    out.print("</td><td>");
+                    out.print("<button type=\"submit\" name=\"review\" onclick=\"location.href='DoctorResultsServlet?qnum=2&docNum=");
+                    out.print(doc.getUsername());
+                    out.print("';\">Create Review</button>");
+                    out.println("</td></tr>");
                 }
                 out.println("</table>");
             }

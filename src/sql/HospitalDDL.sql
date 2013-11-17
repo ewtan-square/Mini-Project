@@ -21,6 +21,7 @@ CREATE TABLE Administrator (
 
 CREATE TABLE Doctor (
 	D_ID INTEGER NOT NULL, 
+	username VARCHAR(16) NOT NULL UNIQUE,
 	first_name VARCHAR(32) NOT NULL,
 	last_name VARCHAR(32) NOT NULL,
 	DoB DATE NOT NULL,
@@ -32,10 +33,12 @@ CREATE TABLE Doctor (
 	street_address VARCHAR(32) NOT NULL,
 	PRIMARY KEY (D_ID),
 	FOREIGN KEY (D_ID) REFERENCES Account(ID)
+	FOREIGN KEY (username) REFERENCES Account(username)
 );
 
 CREATE TABLE Patient (
 	P_ID INTEGER NOT NULL, 
+	username VARCHAR(16) NOT NULL UNIQUE,
 	first_name VARCHAR(32) NOT NULL,
 	last_name VARCHAR(32) NOT NULL,
 	email VARCHAR(64) NOT NULL,
@@ -47,6 +50,7 @@ CREATE TABLE Patient (
 	street_address VARCHAR(32) NOT NULL,
 	PRIMARY KEY (P_ID),
 	FOREIGN KEY (P_ID) REFERENCES Account(ID)
+	FOREIGN KEY (username) REFERENCES Account(username)
 );
 
 CREATE TABLE Work_Address (
