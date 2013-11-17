@@ -18,7 +18,6 @@
     <body>
         <h1>Create a Review</h1>
         <form method="post" action="ReviewServlet">
-            Enter your review:
             <p>
                 Select Doctor: <select>
                     <%

@@ -8,6 +8,14 @@
         <servlet-name>newUserServlet</servlet-name>
         <servlet-class>miniProject.newUserServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DoctorSearchServlet</servlet-name>
+        <servlet-class>miniProject.DoctorSearchServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FriendSearchServlet</servlet-name>
+        <servlet-class>miniProject.FriendSearchServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loginPageServlet</servlet-name>
         <url-pattern>/loginPageServlet</url-pattern>
@@ -16,9 +24,17 @@
         <servlet-name>newUserServlet</servlet-name>
         <url-pattern>/newUserServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DoctorSearchServlet</servlet-name>
+        <url-pattern>/DoctorSearchServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FriendSearchServlet</servlet-name>
+        <url-pattern>/FriendSearchServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-</web-app> 
+</web-app>

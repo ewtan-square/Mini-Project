@@ -152,7 +152,7 @@ public class newUserServlet extends HttpServlet {
         int ilicenseYear = Integer.parseInt(licenseYear);
         Doctor doctor = new Doctor(-1 , username, userFirstName, userLastName, 
                 gender, birthday, ilicenseYear, province, city, postalcode, streetAddress, 
-                tmp, tmp2, tmp3, tmp4);
+                tmp, tmp2, tmp3, tmp4,1);
         // miniProject.addEmployee(em);
         // ArrayList ret = miniProject.getEmployees();
         // request.setAttribute("employeeList", ret);
