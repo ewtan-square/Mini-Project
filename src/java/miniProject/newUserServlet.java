@@ -90,11 +90,11 @@ public class newUserServlet extends HttpServlet {
         
         ArrayList<Doctor> tmp1 = new ArrayList<Doctor>();
         ArrayList<Patient> tmp2 = new ArrayList<Patient>();
-        
+        ArrayList<Review> tmp3 = new ArrayList<Review>();
         Patient em = new Patient(
             -1, username, userFirstName, gender, userLastName, birthday,
             email, province, city, postalcode, streetAddress, 
-            tmp1, tmp2);
+            tmp1, tmp2, tmp3);
         // miniProject.addEmployee(em);
         // ArrayList ret = miniProject.getEmployees();
         // request.setAttribute("employeeList", ret);
@@ -143,9 +143,13 @@ public class newUserServlet extends HttpServlet {
         }     
         
         ArrayList<WorkAddress> tmp = new ArrayList<WorkAddress>();
-        int tmp2 = Integer.parseInt(licenseYear);
-        Doctor doctor = new Doctor(-1 , username, userFirstName, userLastName, gender, birthday,
-            tmp2, province, city, postalcode, streetAddress, tmp);
+        ArrayList<Patient> tmp2 = new ArrayList<Patient>();
+        ArrayList<Review> tmp3 = new ArrayList<Review>();
+        ArrayList<String> tmp4 = new ArrayList<String>();
+        int ilicenseYear = Integer.parseInt(licenseYear);
+        Doctor doctor = new Doctor(-1 , username, userFirstName, userLastName, 
+                gender, birthday, ilicenseYear, province, city, postalcode, streetAddress, 
+                tmp, tmp2, tmp3, tmp4);
         // miniProject.addEmployee(em);
         // ArrayList ret = miniProject.getEmployees();
         // request.setAttribute("employeeList", ret);
