@@ -28,10 +28,13 @@ public class newUserServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    HttpServletRequest returnRequest;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String newUserType = request.getParameter("type");
-
+        
         String url = "/fancyError.jsp";
         try {
             if (newUserType.equals("patient")) {
@@ -43,53 +46,80 @@ public class newUserServlet extends HttpServlet {
                 url = "/login.jsp";
             }
             else {
-                url = "/fancyError.jsp";
+                url = "/login.jsp";
             }
         } 
         catch (Exception e) {
-            request.setAttribute("exception", e);
-            url = "/fancyError.jsp";
+            if (e instanceof FormIncompleteException) {
+                if (newUserType.equals("patient")) {
+                    url = "/createPatient.jsp";
+                    request = this.returnRequest;
+                }
+                else if (newUserType.equals("doctor")) {
+                    url = "/createDoctor.jsp";
+                    request = this.returnRequest;
+                }
+            }
+            else {
+                request.setAttribute("exception", e);
+                url = "/fancyError.jsp";
+            }
         }
-        
-        getServletContext().getRequestDispatcher(url).forward(request, response);
+        finally {
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+        }
     }
     
     protected void addPatientHelper(HttpServletRequest request, HttpServletResponse response)
-            throws java.sql.SQLException, ClassNotFoundException {
-        String username = request.getParameter("username");
-        if (username.equals("")) {
-            // Check if username exists already
-            throw new RuntimeException("Username cannot be empty");
-        }        
+            throws java.sql.SQLException, ClassNotFoundException, FormIncompleteException {
         
+        this.returnRequest = request;
+        
+        String username = request.getParameter("username");
+        this.returnRequest.setAttribute("username", (String)request.getParameter("username"));
+
         String userFirstName = request.getParameter("firstName");
+        this.returnRequest.setAttribute("firstName", (String)request.getParameter("firstName"));
         String userLastName = request.getParameter("lastName");
-        if (userFirstName.equals("") || userLastName.equals("")) {
-            throw new RuntimeException("Name cannot be empty");
-        }
+        this.returnRequest.setAttribute("lastName", (String)request.getParameter("lastName"));
         
         String gender = request.getParameter("gender");
-        if (gender.equals("")) {
-            throw new RuntimeException("Must Select Gender");
-        }
-        
+        this.returnRequest.setAttribute("gender", (String)request.getParameter("gender"));
+
         String birthday = request.getParameter("birthday");
-        if (birthday.equals("")) {
-            throw new RuntimeException("Birthday must be selected");
-        }
-        
+        this.returnRequest.setAttribute("birthday", (String)request.getParameter("birthday"));
+
         String email = request.getParameter("email");
-        if (email.equals("")) {
-            throw new RuntimeException("Email cannot be empty");
-        }
-        
+        this.returnRequest.setAttribute("email", (String)request.getParameter("email"));
+
         String province = request.getParameter("province");
+        this.returnRequest.setAttribute("province", (String)request.getParameter("province"));
         String city = request.getParameter("city");
+        this.returnRequest.setAttribute("city", (String)request.getParameter("city"));
         String postalcode = request.getParameter("postalCode");
+        this.returnRequest.setAttribute("postalCode", (String)request.getParameter("postalCode"));
         String streetAddress = request.getParameter("streetAddress");
+        this.returnRequest.setAttribute("streetAddress", (String)request.getParameter("streetAddress"));
+        
+        if (username.equals("")) {
+            // Check if username exists already
+            throw new FormIncompleteException("Username cannot be empty");
+        }   
+        if (userFirstName.equals("") || userLastName.equals("")) {
+            throw new FormIncompleteException("Name cannot be empty");
+        }
+        if (gender.equals("")) {
+            throw new FormIncompleteException("Must Select Gender");
+        }
+        if (birthday.equals("")) {
+            throw new FormIncompleteException("Birthday must be selected");
+        }
+        if (email.equals("")) {
+            throw new FormIncompleteException("Email cannot be empty");
+        }
         if (province.equals("") || city.equals("") || postalcode.equals("") || streetAddress.equals("")) {
-            throw new RuntimeException("Address is must be complete");
-        }     
+            throw new FormIncompleteException("Address is must be complete");
+        }  
         
         ArrayList<Doctor> tmp1 = new ArrayList<Doctor>();
         ArrayList<Patient> tmp2 = new ArrayList<Patient>();
@@ -104,47 +134,55 @@ public class newUserServlet extends HttpServlet {
     }
     
     protected void addDoctorHelper(HttpServletRequest request, HttpServletResponse response)
-            throws java.sql.SQLException, ClassNotFoundException {
+            throws java.sql.SQLException, ClassNotFoundException, FormIncompleteException {
+        this.returnRequest = request;
+        
         String username = request.getParameter("username");
+        this.returnRequest.setAttribute("username", (String)request.getParameter("username"));
+        String userFirstName = request.getParameter("firstName");
+        this.returnRequest.setAttribute("firstName", (String)request.getParameter("firstName"));
+        String userLastName = request.getParameter("lastName");
+        this.returnRequest.setAttribute("lastName", (String)request.getParameter("lastName"));
+        String gender = request.getParameter("gender");
+        this.returnRequest.setAttribute("gender", (String)request.getParameter("gender"));
+        String birthday = request.getParameter("birthday");
+        this.returnRequest.setAttribute("birthday", (String)request.getParameter("birthday"));
+        String email = request.getParameter("email");
+        this.returnRequest.setAttribute("email", (String)request.getParameter("email"));
+
+        String province = request.getParameter("province");
+        this.returnRequest.setAttribute("province", (String)request.getParameter("province"));
+        String city = request.getParameter("city");
+        this.returnRequest.setAttribute("city", (String)request.getParameter("city"));
+        String postalcode = request.getParameter("postalCode");
+        this.returnRequest.setAttribute("postalCode", (String)request.getParameter("postalCode"));
+        String streetAddress = request.getParameter("streetAddress");
+        this.returnRequest.setAttribute("streetAddress", (String)request.getParameter("streetAddress"));
+                
+        String licenseYear = request.getParameter("licenseYear");
+        this.returnRequest.setAttribute("licenseYear", (String)request.getParameter("licenseYear"));
+        String specialization = request.getParameter("specialization");
+        this.returnRequest.setAttribute("specialization", (String)request.getParameter("specialization"));
+
         if (username.equals("")) {
             // Check if username exists already
-            throw new RuntimeException("Username cannot be empty");
-        }        
-        
-        String userFirstName = request.getParameter("firstName");
-        String userLastName = request.getParameter("lastName");
+            throw new FormIncompleteException("Username cannot be empty");
+        }   
         if (userFirstName.equals("") || userLastName.equals("")) {
-            throw new RuntimeException("Name cannot be empty");
+            throw new FormIncompleteException("Name cannot be empty");
         }
-        
-        String gender = request.getParameter("gender");
         if (gender.equals("")) {
-            throw new RuntimeException("Must Select Gender");
+            throw new FormIncompleteException("Must Select Gender");
         }
-        
-        String birthday = request.getParameter("birthday");
         if (birthday.equals("")) {
-            throw new RuntimeException("Birthday must be selected");
+            throw new FormIncompleteException("Birthday must be selected");
         }
-        
-        String licenseYear = request.getParameter("licenseYear");
         if (licenseYear.equals("")) {
-            throw new RuntimeException("Email cannot be empty");
+            throw new FormIncompleteException("Email cannot be empty");
         }
-        
-        String specialization = request.getParameter("specialization");
-        if (specialization.equals("")) {
-            throw new RuntimeException("Email cannot be empty");
-        }
-        
-        String province = request.getParameter("province");
-        String city = request.getParameter("city");
-        String postalcode = request.getParameter("postalCode");
-        String streetAddress = request.getParameter("streetAddress");
         if (province.equals("") || city.equals("") || postalcode.equals("") || streetAddress.equals("")) {
-            throw new RuntimeException("Address is must be complete");
-        }     
-        
+            throw new FormIncompleteException("Address is must be complete");
+        }  
         ArrayList<WorkAddress> tmp = new ArrayList<WorkAddress>();
         ArrayList<Patient> tmp2 = new ArrayList<Patient>();
         ArrayList<Review> tmp3 = new ArrayList<Review>();
