@@ -64,4 +64,6 @@ public class Patient {
     public void setHomeStreet(String homeStreet) { this.homeStreet = homeStreet; }
     public ArrayList<Doctor> getDoctors() { return doctors; }
     public void addDoctor(Doctor doctor) { this.doctors.add(doctor); }
+    public ArrayList<Patient> getFriends() { return friends; }
+    public void addFriends(Patient patient) { this.friends.add(patient); }
 }
