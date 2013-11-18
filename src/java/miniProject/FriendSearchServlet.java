@@ -39,7 +39,7 @@ public class FriendSearchServlet extends HttpServlet {
             ArrayList<Patient> friends = new ArrayList<Patient>();
             ArrayList<Patient> ret = new ArrayList<Patient>();
             Patient temp;
-            temp = new Patient("harvey","","","","","","","","","",friends);
+            temp = new Patient("harvey","","","","","","","","","");
             ret.add(temp);
             
             url = "/friendResults.jsp";

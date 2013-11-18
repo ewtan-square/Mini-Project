@@ -37,7 +37,12 @@ public class loginPageServlet extends HttpServlet {
                 
         String url;
         try {
+<<<<<<< HEAD
             String accType = UserDB.getAccountType(username); 
+=======
+            //String accType = UserDB.getAccountType(username); 
+            String accType = "patient";
+>>>>>>> dev
             request.setAttribute("username", username);
             ArrayList<String> tmp = UserDB.authenticate(username, password);
             boolean authenticated = tmp.get(0).equals(tmp.get(1));

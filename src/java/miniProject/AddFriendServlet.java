@@ -49,7 +49,7 @@ public class AddFriendServlet extends HttpServlet {
                 ArrayList<Patient> friends = new ArrayList<Patient>();
                 ArrayList<Patient> ret = new ArrayList<Patient>();
                 Patient temp;
-                temp = new Patient("harvey","","","","","","","","","",ret);
+                temp = new Patient("harvey","","","","","","","","","");
                 friends.add(temp);
                 request.setAttribute("patientList",ret);
                 request.setAttribute("friendList",friends);
@@ -64,7 +64,7 @@ public class AddFriendServlet extends HttpServlet {
                 ArrayList<Patient> friends = new ArrayList<Patient>();
                 ArrayList<Patient> ret = new ArrayList<Patient>();
                 Patient temp;
-                temp = new Patient("harvey","","","","","","","","","",friends);
+                temp = new Patient("harvey","","","","","","","","","");
                 ret.add(temp);
                 request.setAttribute("patientList",ret);
                 request.setAttribute("friendList",friends);

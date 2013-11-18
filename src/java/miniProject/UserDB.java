@@ -92,8 +92,6 @@ public class UserDB extends Query{
             stmt = con.prepareStatement("SELECT password, salt FROM Account WHERE username = ?");
             stmt.setString(1, username);
             ResultSet resultSet = stmt.executeQuery();
-            
-            resultSet = stmt.executeQuery();
             String actualpassword, salt;
             if (resultSet.next()) {
                 actualpassword = resultSet.getString("password");
