@@ -17,7 +17,7 @@ public class Doctor {
     private String lastName;
     private String dateOfBirth;
     private int licenseYear;
-    private int averageStarRating;
+    private double averageStarRating;
     private String homeProvince;
     private String homeCity;
     private String homePostalCode;
@@ -74,6 +74,6 @@ public class Doctor {
     public ArrayList<String> getSpecializations() { return specializations; }
     public void addSpecialization(String specialization) { this.specializations.add(specialization); }
     public void setSpecialization(ArrayList<String> specializations) {this.specializations = specializations;}
-    public int getAverageStarRating() { return averageStarRating; }
-    public void setAverageStarRating(int averageStarRating) { this.averageStarRating = averageStarRating; }
+    public double getAverageStarRating() { return averageStarRating; }
+    public void setAverageStarRating(double averageStarRating) { this.averageStarRating = averageStarRating; }
 }

@@ -307,8 +307,8 @@ public class DoctorDBAO extends Query {
     }
     
     public static ArrayList<Doctor> queryDoctor(String firstname,
-            String lastname, String province, String postalcode, String city,
-            String street, String specialization, Integer license_year, Double rating_at_least,
+            String lastname, String gender, String province, String postalcode, String city,
+            String street, String specialization, Integer license_year, Integer rating_at_least,
             Boolean recommended, String patient_username)
             throws ClassNotFoundException, SQLException {
         Connection con = null;
@@ -326,61 +326,65 @@ public class DoctorDBAO extends Query {
 //                arguments.add(username);
 //            }
             
-            if (firstname != null) {
-                statement += " AND first_name = ?";
+            if (!firstname.equals("")) {
+                statement += " AND UPPER(first_name) LIKE UPPER(?)";
                 arguments.add(firstname);
             }
 
-            if (lastname != null) {
-                statement += " AND last_name = ?";
+            if (!lastname.equals("")) {
+                statement += " AND UPPER(last_name) LIKE UPPER(?)";
                 arguments.add(lastname);
             }
-
-            if (province != null) {
-                statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
-                        + "FROM Work_Address WHERE province = ?)";
+            
+            if (!gender.equals("")) {
+                statement += " AND gender LIKE ?";
+                arguments.add(gender);
+            }
+            if (!province.equals("")) {
+                statement += " AND username IN (SELECT DISTINCT D_username "
+                        + "FROM Work_Address WHERE UPPER(province) LIKE UPPER(?))";
                 arguments.add(province);
             }
             
-            if (postalcode != null) {
-                statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
-                        + "FROM Work_Address WHERE postal_code = ?)";
+            if (!postalcode.equals("")) {
+                statement += " AND username IN (SELECT DISTINCT D_username "
+                        + "FROM Work_Address WHERE UPPER(postal_code) LIKE UPPER(?))";
                 arguments.add(postalcode);
             }
 
-            if (city != null) {
-                statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
-                        + "FROM Work_Address WHERE city = ?)";
+            if (!city.equals("")) {
+                statement += " AND username IN (SELECT DISTINCT D_username "
+                        + "FROM Work_Address WHERE UPPER(city) LIKE UPPER(?))";
                 arguments.add(city);
             }
 
-            if (street != null) {
-                statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
-                        + "FROM Work_Address WHERE street_address = ?)";
+            if (!street.equals("")) {
+                statement += " AND username IN (SELECT DISTINCT D_username "
+                        + "FROM Work_Address WHERE UPPER(street_address) LIKE UPPER(?))";
                 arguments.add(street);
             }
 
-            if (license_year != null) {
+            if (license_year != 0) {
                 statement += " AND license_year >= ?";
                 arguments.add("license_year");
             }
             
-            if (specialization != null) {
-                statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
-                        + " FROM Specializations WHERE area = ?)";
+            if (!specialization.equals("")) {
+                statement += " AND username IN (SELECT DISTINCT D_username "
+                        + " FROM Doctor_Specialization WHERE area LIKE ?)";
                 arguments.add(specialization);
             }
             
-            if (rating_at_least != null) {
+            if (rating_at_least != 0) {
                 statement += " AND avg_rating > ?";
                 arguments.add("rating_at_least");
             }
             
-            if (recommended == true && patient_username != null) {
-                statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
+            if (recommended == true && !patient_username.equals("")) {
+                statement += " AND username IN (SELECT DISTINCT D_username "
                         + "FROM Review WHERE P_username IN ( " 
                         + "SELECT FRIEND_username FROM Friendship WHERE "
-                        + "FRIENDER_username = ?) AND recommendation = 1";
+                        + "FRIENDER_username LIKE ?) AND recommendation = 1)";
                 arguments.add(patient_username);
             }
             
@@ -395,20 +399,19 @@ public class DoctorDBAO extends Query {
                     stmt.setInt(count, license_year);
                 }
                 else if (argument.equals("rating_at_least")){
-                    stmt.setDouble(count, rating_at_least);
+                    stmt.setInt(count, rating_at_least);
                 }
                 else {
-                    stmt.setString(count, argument);
+                    stmt.setString(count, "%" + argument + "%");
                 }
                 
                 count++;
             }
             
             ResultSet results = stmt.executeQuery();
-            DateFormat df = new SimpleDateFormat("yyyy/MM/dd"); 
             
             while(results.next()) {
-               String date = df.format(results.getString("DoB"));
+               String date = results.getString("DoB");
                String username = results.getString("username");
                Doctor doc = new Doctor(
                     username,
@@ -424,6 +427,7 @@ public class DoctorDBAO extends Query {
                 );
                 doc.setWorkAddress(getWorkAddresses(username));
                 doc.setSpecialization(getSpecializations(username));
+                doc.setAverageStarRating(results.getDouble("avg_rating"));
                 result_doctors.add(doc);
             }
         }
@@ -448,7 +452,7 @@ public class DoctorDBAO extends Query {
             con = getConnection();
             stmt = con.createStatement();
             specializations = new ArrayList<String>();
-            ResultSet resultSet = stmt.executeQuery("SELECT UNIQUE area FROM "
+            ResultSet resultSet = stmt.executeQuery("SELECT DISTINCT area FROM "
                     + "Doctor_Specialization;");
             
             while(resultSet.next()) {

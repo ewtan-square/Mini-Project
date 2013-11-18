@@ -52,7 +52,7 @@ public class DoctorSearchServlet extends HttpServlet {
         String dob = request.getParameter("birthday");
         String specialization = request.getParameter("specialization");
         String strLicenseYear = request.getParameter("licenseYear");
-        int licenseYear = 2013;
+        int licenseYear = 0;
         if(!strLicenseYear.equals(""))
             licenseYear = Integer.parseInt(strLicenseYear);
         String province = request.getParameter("province");
@@ -70,15 +70,25 @@ public class DoctorSearchServlet extends HttpServlet {
         if(strRecommended == null)
             recommendation = false;
         
-        ArrayList<Doctor> ret = new ArrayList<Doctor>();
-        ArrayList<WorkAddress> tmp = new ArrayList<WorkAddress>();
-        ArrayList<Patient> tmp2 = new ArrayList<Patient>();
-        ArrayList<Review> tmp3 = new ArrayList<Review>();
-        ArrayList<String> tmp4 = new ArrayList<String>();
-        Doctor temp;
-        temp = new Doctor("rfmaducd","Ray","Maducdoc","male","1992-12-16",1998,"Ontario","PoopCity","1234","Osas");
-        ret.add(temp);
+        
+//        ArrayList<Doctor> ret = new ArrayList<Doctor>();
+//        ArrayList<WorkAddress> tmp = new ArrayList<WorkAddress>();
+//        ArrayList<Patient> tmp2 = new ArrayList<Patient>();
+//        ArrayList<Review> tmp3 = new ArrayList<Review>();
+//        ArrayList<String> tmp4 = new ArrayList<String>();
+//        Doctor temp;
+//        temp = new Doctor("rfmaducd","Ray","Maducdoc","male","1992-12-16",1998,"Ontario","PoopCity","1234","Osas");
+//        ret.add(temp);
+        String username = request.getSession().getAttribute("username").toString();
+        System.out.println(username);
+        
+        ArrayList ret = DoctorDBAO.queryDoctor(firstName, lastName, gender, province, 
+                postalCode, city, streetAddress, specialization, licenseYear, starRating
+                ,recommendation, username);
+        
         request.setAttribute("doctorList", ret);
+        
+        
 //        ArrayList ret = MiniProjectDBAO.queryDoctor(firstName, lastName, gender, dob, specialization,
 //                licenseYear, province, city, postalCode, streetAddress, starRating, recommendation);
 //                request.setAttribute("doctorList", ret);
