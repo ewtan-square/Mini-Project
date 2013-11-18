@@ -52,11 +52,11 @@ public class DoctorDBAO extends Query {
                 stmt.setString(3, D.getLastName());
                 stmt.setInt(4, D.getLicenseYear());
                 stmt.setString(5, D.getDOB());
-                stmt.setString(5, D.getGender());
-                stmt.setString(6, D.getHomeProvince());
-                stmt.setString(7, D.getHomeCity());
-                stmt.setString(8, D.getHomePostalCode());
-                stmt.setString(9, D.getHomeStreet());
+                stmt.setString(6, D.getGender());
+                stmt.setString(7, D.getHomeProvince());
+                stmt.setString(8, D.getHomeCity());
+                stmt.setString(9, D.getHomePostalCode());
+                stmt.setString(10, D.getHomeStreet());
                 stmt.executeUpdate();
                 return true;
             }

@@ -32,27 +32,18 @@ public class PatientDB {
             }
             else {
                 stmt = con.prepareStatement("INSERT INTO Patient "
-                        + "(username, "
-                        + "first_name, "
-                        + "last_name, "
-                        + "email, "
-                        + "DoB, "
-                        + "gender, "
-                        + "province, "
-                        + "city, "
-                        + "postal_code, "
-                        + "street_address) "
+                        
                         + "VALUES (?,?,?,?,?,?,?,?,?,?)");
                 stmt.setString(1, P.getUsername());
                 stmt.setString(2, P.getFirstName());
                 stmt.setString(3, P.getLastName());
                 stmt.setString(4, P.getEmail());
                 stmt.setString(5, P.getDOB());
-                stmt.setString(5, P.getGender());
-                stmt.setString(6, P.getHomeProvince());
-                stmt.setString(7, P.getHomeCity());
-                stmt.setString(8, P.getHomePostalCode());
-                stmt.setString(9, P.getHomeStreet());
+                stmt.setString(6, P.getGender());
+                stmt.setString(7, P.getHomeProvince());
+                stmt.setString(8, P.getHomeCity());
+                stmt.setString(9, P.getHomePostalCode());
+                stmt.setString(10, P.getHomeStreet());
                 stmt.executeUpdate();
                 return true;
             }
