@@ -356,9 +356,9 @@ public class DoctorDBAO extends Query {
             
             while(results.next()) {
                String date = df.format(results.getString("DoB"));
-               result_doctors.add(
-                    new Doctor(
-                    results.getString("username"),
+               String username = results.getString("username");
+               Doctor doc = new Doctor(
+                    username,
                     results.getString("first_name"),
                     results.getString("last_name"),
                     results.getString("gender"),
@@ -368,7 +368,10 @@ public class DoctorDBAO extends Query {
                     results.getString("city"),
                     results.getString("postal_code"),
                     results.getString("street_address")                        
-                ));
+                );
+                doc.setWorkAddress(getWorkAddresses(username));
+                doc.setSpecialization(getSpecializations(username));
+                result_doctors.add(doc);
             }
         }
         finally {
@@ -408,4 +411,6 @@ public class DoctorDBAO extends Query {
         }
         return specializations;
     }
+    
+    
 }
