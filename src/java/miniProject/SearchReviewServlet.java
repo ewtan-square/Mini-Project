@@ -36,11 +36,10 @@ public class SearchReviewServlet extends HttpServlet {
             String dateRange = request.getParameter("dateRange");
             Boolean range = true;
             if(dateRange.equals("earlier"))
-                range = false;
+                range = true;
             String keyword = request.getParameter("keyword");
             
-            //ArrayList ret = queryReviews(range,date,keyword);
-            ArrayList<Review> ret = new ArrayList<Review>();
+            ArrayList ret = AdminDBAO.queryReviews(range,date,keyword);
             request.setAttribute("reviewList", ret);
             url = "/reviewResults.jsp";
             
