@@ -69,8 +69,8 @@ public class DoctorResultsServlet extends HttpServlet {
         //FROM DOCTOR RESULTS
         else{
             //QUERY WITH USER ID
-            //ArrayList ret = MiniProjectDBAO.queryDoctor(strDocUsername);
-            //request.setAttribute("doctorList", ret);
+            ArrayList ret = DoctorDBAO.queryDoctor(strDocUsername);
+            request.setAttribute("doctorList", ret);
         }
     }
 
