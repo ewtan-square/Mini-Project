@@ -2,4 +2,6 @@ nbproject/private/
 build/web/WEB-INF/*.class
 build/web/*.jsp
 build/web/WEB-INF/classes/miniProject/*.class
-/dist/
+build/web/WEB-INF/classes/.netbeans_automatic_build
+build/web/WEB-INF/classes/.netbeans_update_resources
+dist/
