@@ -34,7 +34,7 @@ public class SearchReviewServlet extends HttpServlet {
         try {
             String date = request.getParameter("reviewDate");
             String dateRange = request.getParameter("dateRange");
-            Boolean range = true;
+            Boolean range = false;
             if(dateRange.equals("earlier"))
                 range = true;
             String keyword = request.getParameter("keyword");

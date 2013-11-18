@@ -59,14 +59,31 @@ public class AdminDBAO extends Query{
 
         try {
             con = getConnection();
-            stmt = con.prepareStatement(
-                                "SELECT * FROM Review " +
-                                "WHERE comment_text LIKE = '%?%' " +
-                                "AND ? ? review_date"
-                                );
-            stmt.setString(1, keyword);
-            stmt.setString(3, dateinput);
-            stmt.setString(2, (earlier) ? "<" : ">");
+            if (dateinput != "") {
+                if (earlier) {
+                    stmt = con.prepareStatement(
+                            "SELECT * FROM Review " +
+                            "WHERE comment_text LIKE ? " +
+                            "AND ? > review_date");
+                    stmt.setString(1, "%"+keyword+"%");
+                    stmt.setString(2, dateinput);
+                }
+                else {
+                    stmt = con.prepareStatement(
+                    "SELECT * FROM Review " +
+                    "WHERE comment_text LIKE ? " +
+                    "AND ? < review_date");
+                    stmt.setString(1, "%"+keyword+"%");
+                    stmt.setString(2, dateinput);
+                }
+            }
+            else {
+                stmt = con.prepareStatement(
+                "SELECT * FROM Review " +
+                "WHERE comment_text LIKE ? ");   
+                stmt.setString(1, "%"+keyword+"%");         
+            }
+            
 
             ResultSet results = stmt.executeQuery();
             reviews = new ArrayList<Review>();
@@ -80,7 +97,7 @@ public class AdminDBAO extends Query{
                         results.getInt("R_ID"),
                         results.getInt("Rating"),
                         results.getBoolean("recommendation"),
-                        results.getString("comment"),
+                        results.getString("comment_text"),
                         date
                 ));
             }
