@@ -133,7 +133,7 @@ public class DoctorDBAO extends Query {
         }
     }
     
-     public static void newWorkAddress(String username, WorkAddress wa)
+    public static void newWorkAddress(String username, WorkAddress wa)
             throws ClassNotFoundException, SQLException {
         Connection con = null;
         PreparedStatement stmt = null;
@@ -141,7 +141,7 @@ public class DoctorDBAO extends Query {
         try {
             con = getConnection();
             stmt = con.prepareStatement("SELECT * FROM Work_Address "
-                    + "WHERE ? = username AND ? = province AND ? = city AND ? = postal_code AND \"?\" = street_address;");
+                    + "WHERE ? = D_username AND ? = province AND ? = city AND ? = postal_code AND ? = street_address;");
             stmt.setString(1, username);
             stmt.setString(2, wa.getProvince());
             stmt.setString(3, wa.getCity());
@@ -181,7 +181,7 @@ public class DoctorDBAO extends Query {
         try {
             con = getConnection();
             stmt = con.prepareStatement("SELECT * FROM Doctor_Specialization "
-                    + "WHERE ? = username AND '?' = area;");
+                    + "WHERE ? = D_username AND ? = area;");
             stmt.setString(1, username);
             stmt.setString(2, area);
             ResultSet resultSet = stmt.executeQuery();

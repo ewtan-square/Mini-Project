@@ -25,7 +25,7 @@
         <form method="post" action="UpdateDoctorServlet?type=workaddress">
         Enter the following information:
         <p>   
-            Province: <input type="text" name="province" size="20"><br/>
+            Province: <input type="text" name="province" maxlength="2" size="2"><br/>
             City: <input type="text" name="city" size="20"><br/>
             Postal Code: <input type="text" name="postalCode" size="20"><br/>
             Street Address: <input type="text" name="streetAddress" size="20"><br/>
