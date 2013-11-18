@@ -25,7 +25,7 @@
         <form method="post" action="UpdateDoctorServlet?type=workaddress">
         Enter the following information:
         <p>   
-            Province: <input type="text" name="province" size="20"><br/>
+            Province: <input type="text" name="province" maxlength="2" size="2"><br/>
             City: <input type="text" name="city" size="20"><br/>
             Postal Code: <input type="text" name="postalCode" size="20"><br/>
             Street Address: <input type="text" name="streetAddress" size="20"><br/>
@@ -55,10 +55,10 @@
         <h1>Doctor Specialties</h1>
         <h2>Add a Specialty</h2>
         <form method="post" action="UpdateDoctorServlet?type=specialization">
-        Enter the following information:
-        <p>   
-            Area: <input type="text" name="province" size="20"><br/>
-        </p> <input type="submit" value="Submit">
+            Enter the following information:
+            <p> 
+                Area: <input type="text" name="area" size="20"><br/>
+            </p> <input type="submit" value="Submit">
         </form>
         <%
             if (specializationList != null) {

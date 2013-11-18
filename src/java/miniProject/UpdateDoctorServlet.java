@@ -41,12 +41,15 @@ public class UpdateDoctorServlet extends HttpServlet {
         String url = "/doctorProfile.jsp";
         try {
             request.setAttribute("workAddressList", DoctorDBAO.getWorkAddresses(username));
+            request.setAttribute("specializationList", DoctorDBAO.getSpecializations(username));
 
             if (updateRequest.equals("workaddress")) {
                 addWorkAddressHelper(request, response);
+                request.setAttribute("workAddressList", DoctorDBAO.getWorkAddresses(username));
             }
             else if (updateRequest.equals("specialization")) {
-                //addSpecializationHelper(request, response);
+                addSpecializationHelper(request, response);
+                request.setAttribute("specializationList", DoctorDBAO.getSpecializations(username));
             }
             else {
                 url = "/doctorProfile.jsp";
@@ -91,12 +94,32 @@ public class UpdateDoctorServlet extends HttpServlet {
         if (province.equals("") || city.equals("") || postalcode.equals("") || streetAddress.equals("")) {
             throw new FormIncompleteException("Address must be complete");
         }  
-       
-        //WorkAddress wa = new WorkAddress(username, province, city, postalcode, streetAddress);
-        // miniProject.addWorkAddress(wa);
+        
+        String username = (String)request.getSession().getAttribute("username");
+        WorkAddress wa = new WorkAddress(username, province, city, postalcode, streetAddress);
+        DoctorDBAO.newWorkAddress(username, wa);
         
         //ArrayList<WorkAddress> workAddressList ;// = miniProject.addWorkAddress(username);
         //returnRequest.setAttribute("workAddressList", workAddressList);
+        
+    }
+    
+    protected void addSpecializationHelper(HttpServletRequest request, HttpServletResponse response)
+            throws java.sql.SQLException, ClassNotFoundException, FormIncompleteException {
+        
+        this.returnRequest = request;
+        
+        //String username = request.getAttribute("")
+        
+        String area = (String)request.getParameter("area");
+        this.returnRequest.setAttribute("area", (String)request.getParameter("area"));
+        
+        if (area.equals("")) {
+            throw new FormIncompleteException("Area field must be complete");
+        }  
+        
+        String username = (String)request.getSession().getAttribute("username");
+        DoctorDBAO.newSpecialization(username, area);
         
     }
     
