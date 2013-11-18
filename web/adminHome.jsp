@@ -13,7 +13,8 @@
     </head>
     <body>
         <h1>Hello Admin!</h1>
-        <li><a href="adminHome.jsp">View all patient and doctor accounts (Page not created)</a></li>        
+        <li><a href="adminHome.jsp">View all patient accounts (Page not created)</a></li>
+        <li><a href="adminHome.jsp">View all doctor accounts (Page not created)</a></li>        
         <li><a href="adminHome.jsp">Search reviews (Page not created)</a></li>
     </body>
 </html>

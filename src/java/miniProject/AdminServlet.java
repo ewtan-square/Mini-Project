@@ -6,9 +6,7 @@ package miniProject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,8 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Francis
  */
-@WebServlet(name = "ReviewServlet", urlPatterns = {"/ReviewServlet"})
-public class ReviewServlet extends HttpServlet {
+public class AdminServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -32,43 +29,23 @@ public class ReviewServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url;
-        String strDocUsername = request.getParameter("docUsername");
-        request.setAttribute("docUsername", strDocUsername);
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         try {
-            url = "/viewReviews.jsp";
-//            if(strDocUsername == null || strDocUsername.equals("")){
-//                url = "/fancyError.jsp";
-//                throw new Exception("Doctor field is empty");
-//            }
-//            else
-                queryhelper(request, response);
-        }catch (Exception e) {
-            request.setAttribute("exception", e);
-            url = "/fancyError.jsp";
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet AdminServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet AdminServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        } finally {            
+            out.close();
         }
-        
-        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
-    
-        protected void queryhelper(HttpServletRequest request, HttpServletResponse response)
-            throws java.sql.SQLException, ClassNotFoundException {
-            String strDocUsername = request.getParameter("docUsername");
-            String strUsername = (String)request.getSession().getAttribute("username");
-            String strRating = request.getParameter("rating");
-            int rating = Integer.parseInt(strRating);
-            String strRecommendation = request.getParameter("recommendation");
-            Boolean recommendation = true;
-            if(strRecommendation == null || strRecommendation.equals("not recommended"))
-                recommendation = false;
-            String comments = request.getParameter("comments");
-            
-            ArrayList<Review> ret = new ArrayList<Review>();
-            //MiniProjectDBAO.addDoctorReview(strDocUsername,strUsername,rating,recommendation,comments);
-            //ArrayList ret = MiniProjectDBAO.showDoctorReviews(strDocUsername);
-            request.setAttribute("reviewList", ret);
-            
-        }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -19,25 +19,21 @@
         <h1>Create a Review</h1>
         <form method="post" action="ReviewServlet">
             <p>
-                Select Doctor: <select>
+                Select Doctor: <select name="docUsername">
                     <%
                     if (doctorList != null) {
                         for(Doctor doc : doctorList)
                         {
                             out.print("<option value=\"");
-                            out.print(doc.getLastName());
-                            out.print(", ");
-                            out.print(doc.getFirstName());
+                            out.print(doc.getUsername());
                             out.print("\">");
-                            out.print(doc.getLastName());
-                            out.print(", ");
-                            out.print(doc.getFirstName());
+                            out.print(doc.getUsername());
                             out.println("</option>");
                         }
                     }
                     %>
                 </select><br/> 
-                Rating: <select>
+                Rating: <select name="rating">
                     <option value="0">0</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -47,7 +43,7 @@
                 </select><br/>
                 <input type="radio" name="recommendation" value="recommended">recommended<br>
                 <input type="radio" name="recommendation" value="not recommended">not recommended<br>
-                Comments: <textarea rows="4" cols="50"></textarea><br/>
+                Comments: <textarea rows="4" cols="50" name="comments"></textarea><br/>
             <p> <input type="submit" value="Submit">
         </form>
     </body>

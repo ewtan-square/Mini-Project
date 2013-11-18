@@ -54,5 +54,7 @@
                 }
             }
         %>
+        
+        <button type="submit" name="CreateReview" onclick="location.href='patientHome.jsp'">Return to Main Page</button>
     </body>
 </html>

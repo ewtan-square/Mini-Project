@@ -31,7 +31,7 @@
                 for(Review rev : reviewList)
                 {
                     out.println("<tr><td>");
-                    out.print(rev.getPatientID());
+                    out.print(rev.getPatientUsername());
                     out.print("</td><td>");
                     out.print(rev.getDate());
                     out.print("</td><td>");
@@ -45,5 +45,7 @@
                 out.println("</table>");
             }
         %>
+        
+        <button type="submit" name="CreateReview" onclick="location.href='patientHome.jsp'">Return to Main Page</button>
     </body>
 </html>

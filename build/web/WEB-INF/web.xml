@@ -48,6 +48,10 @@
         <servlet-name>UpdateDoctorServlet</servlet-name>
         <servlet-class>miniProject.UpdateDoctorServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminServlet</servlet-name>
+        <servlet-class>miniProject.AdminServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loginPageServlet</servlet-name>
         <url-pattern>/loginPageServlet</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>UpdateDoctorServlet</servlet-name>
         <url-pattern>/UpdateDoctorServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminServlet</servlet-name>
+        <url-pattern>/AdminServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
