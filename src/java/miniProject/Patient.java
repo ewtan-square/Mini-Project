@@ -24,8 +24,23 @@ public class Patient {
     private String homeStreet;
     private ArrayList<Patient> friends;
     
-    public Patient(String username, String firstName, String lastName, String gender, String dateOfBirth,
-            String email, String homeProvince, String homeCity, String homePostalCode, String homeStreet)
+    public Patient(String username, String firstName, String gender, String lastName, String dateOfBirth,
+            String email, String homeProvince, String homeCity, String homePostalCode, String homeStreet) {
+        this.username = username;
+        this.firstName = firstName;
+        this.gender = gender;
+        this.lastName = lastName;
+        this.email = email;
+        this.homeProvince = homeProvince;
+        this.homeCity = homeCity;
+        this.homePostalCode = homePostalCode;
+        this.homeStreet = homeStreet;
+        this.dateOfBirth = dateOfBirth;
+    }
+    
+    public Patient(String username, String firstName, String gender, String lastName, String dateOfBirth,
+            String email, String homeProvince, String homeCity, String homePostalCode, String homeStreet, 
+             ArrayList<Patient> friends)
     {
         this.username = username;
         this.firstName = firstName;
