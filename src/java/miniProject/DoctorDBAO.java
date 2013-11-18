@@ -253,4 +253,134 @@ public class DoctorDBAO extends Query {
         }
     }
     
+    public static ArrayList<Doctor> queryDoctor(String firstname,
+            String lastname, String province, String postalcode, String city,
+            String street, String specialization, Integer license_year, Double rating_at_least,
+            Boolean recommended, String patient_username)
+            throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ArrayList<Doctor> result_doctors;
+        try {
+            con = getConnection();
+            result_doctors = new ArrayList<Doctor>();
+            ArrayList<String> arguments = new ArrayList<String>(); 
+                    
+            String statement = "SELECT * FROM Doctors_With_Rating WHERE TRUE";
+            
+//            if (username != null) {
+//                statement += " AND username = ?";
+//                arguments.add(username);
+//            }
+            
+            if (firstname != null) {
+                statement += " AND first_name = ?";
+                arguments.add(firstname);
+            }
+
+            if (lastname != null) {
+                statement += " AND last_name = ?";
+                arguments.add(lastname);
+            }
+
+            if (province != null) {
+                statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
+                        + "FROM Work_Address WHERE province = ?)";
+                arguments.add(province);
+            }
+            
+            if (postalcode != null) {
+                statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
+                        + "FROM Work_Address WHERE postal_code = ?)";
+                arguments.add(postalcode);
+            }
+
+            if (city != null) {
+                statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
+                        + "FROM Work_Address WHERE city = ?)";
+                arguments.add(city);
+            }
+
+            if (street != null) {
+                statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
+                        + "FROM Work_Address WHERE street_address = ?)";
+                arguments.add(street);
+            }
+
+            if (license_year != null) {
+                statement += " AND license_year >= ?";
+                arguments.add("license_year");
+            }
+            
+            if (specialization != null) {
+                statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
+                        + " FROM Specializations WHERE area = ?)";
+                arguments.add(specialization);
+            }
+            
+            if (rating_at_least != null) {
+                statement += " AND avg_rating > ?";
+                arguments.add("rating_at_least");
+            }
+            
+            if (recommended == true && patient_username != null) {
+                statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
+                        + "FROM Review WHERE P_username IN ( " 
+                        + "SELECT FRIEND_username FROM Friendship WHERE "
+                        + "FRIENDER_username = ?) AND recommendation = 1";
+                arguments.add(patient_username);
+            }
+            
+            statement += ";";
+            
+            stmt = con.prepareStatement(statement);
+            
+            int count = 1;
+            for (String argument : arguments) {
+                
+                if (argument.equals("license_year")) {
+                    stmt.setInt(count, license_year);
+                }
+                else if (argument.equals("rating_at_least")){
+                    stmt.setDouble(count, rating_at_least);
+                }
+                else {
+                    stmt.setString(count, argument);
+                }
+                
+                count++;
+            }
+            
+            ResultSet results = stmt.executeQuery();
+            DateFormat df = new SimpleDateFormat("yyyy/MM/dd"); 
+            
+            while(results.next()) {
+               String date = df.format(results.getString("DoB"));
+               result_doctors.add(
+                    new Doctor(
+                    results.getString("username"),
+                    results.getString("first_name"),
+                    results.getString("last_name"),
+                    results.getString("gender"),
+                    date,
+                    results.getInt("license_year"),
+                    results.getString("province"),
+                    results.getString("city"),
+                    results.getString("postal_code"),
+                    results.getString("street_address")                        
+                ));
+            }
+        }
+        finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        
+        return result_doctors;
+    }
+    
 }
