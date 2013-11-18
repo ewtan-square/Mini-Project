@@ -18,17 +18,17 @@
         <% tmp = (String)request.getSession().getAttribute("username"); %>
         <%= tmp%>
         <h1>Search for other users</h1>
-        <form method="post" action="FriendSearchServlet">
+        <form method="post" action="FriendSearchServlet?type=alias">
         Alias: <input type="text" name="alias" size="20"><br/>
         <input type="submit" value="Search">
         
+        <h2>Your current friends</h2>
         <%! ArrayList<Patient> friends;%>
         <% friends = (ArrayList<Patient>) request.getAttribute("friendList");%>
         <%
             if (friends != null) {
         %>
-        <h2>Your current friends</h2>
-        <table border=1><tr><th>Province</th><th>City</th><th>Postal Code</th><th>Street</th></tr>
+        <table border=1><tr><th>Username</th><th>First Name</th><th>Last Name</th></tr>
             <%
                 for (Patient f : friends) {
             %>

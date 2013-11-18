@@ -65,7 +65,7 @@ public class PatientDB extends Query{
         
     }
     
-    public static ArrayList<Patient> findNewFriends(String username)
+    public static ArrayList<Patient> findNewFriends(String username, String keyword)
             throws ClassNotFoundException, SQLException {
         
         Connection con = null;
@@ -74,25 +74,35 @@ public class PatientDB extends Query{
 
         try {
             con = getConnection();
-            stmt = con.prepareStatement("SELECT * FROM Patient WHERE "
-                    + "Patient.username <> ? AND Patient.username NOT IN ( " 
-                    + "SELECT FRIEND_username FROM Friendship WHERE " 
-                    + "FRIENDER_username = ?");
-            stmt.setString(1, username);
-            stmt.setString(2, username);            
-            
+                if (keyword == "") {
+                stmt = con.prepareStatement("SELECT * FROM Patient WHERE "
+                        + "Patient.username <> ? AND Patient.username NOT IN ( " 
+                        + "SELECT FRIEND_username FROM Friendship WHERE " 
+                        + "FRIENDER_username = ?);");
+                stmt.setString(1, username);
+                stmt.setString(2, username);            
+            }
+            else {
+                stmt = con.prepareStatement("SELECT * FROM Patient WHERE "
+                        + "Patient.username <> ? AND Patient.username NOT IN ( " 
+                        + "SELECT FRIEND_username FROM Friendship f WHERE " 
+                        + "FRIENDER_username = ?) AND Patient.username LIKE ?;");
+                stmt.setString(1, username);
+                stmt.setString(2, username);    
+                stmt.setString(3, "%"+keyword+"%");    
+            }
             ResultSet results = stmt.executeQuery();
             
             DateFormat df = new SimpleDateFormat("yyyy/MM/dd");  
             
             while(results.next()) {
-                String date = df.format(results.getString("DoB"));                
+                //String date = df.format(results.getString("DoB"));                
                 new_friends.add(new Patient(
                         results.getString("username"),
                         results.getString("first_name"),
                         results.getString("gender"),
                         results.getString("last_name"),
-                        date,
+                        results.getString("DoB"),
                         results.getString("email"),
                         results.getString("province"),
                         results.getString("city"),
@@ -216,7 +226,7 @@ public class PatientDB extends Query{
         try {
             con = getConnection();
             stmt = con.prepareStatement("SELECT * FROM Friendship Fr INNER JOIN Patient P ON "
-                    + "Fr.FRIENDER_username = P.username WHERE ? = Fr.FRIENDER_username;");
+                    + "Fr.FRIEND_username = P.username WHERE ? = Fr.FRIENDER_username;");
             stmt.setString(1, username);
             ResultSet resultSet = stmt.executeQuery();
             
@@ -228,8 +238,8 @@ public class PatientDB extends Query{
                 Patient pat = new Patient(
                     friendName,
                     resultSet.getString("first_name"),
-                    resultSet.getString("last_name"),
                     resultSet.getString("gender"),
+                    resultSet.getString("last_name"),
                     date,
                     resultSet.getString("gender"),
                     resultSet.getString("province"),
