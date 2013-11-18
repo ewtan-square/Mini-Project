@@ -63,5 +63,70 @@ public class PatientDB {
         }
         return false;
     }
+
+    public static void newFriendship(String friender_username, String friend_username)
+                throws ClassNotFoundException, SQLException {
+            Connection con = null;
+            PreparedStatement stmt = null;
+
+            try {
+                    con = getConnection();
+                    stmt = con.prepareStatement("SELECT * FROM Friendship "
+                                    + "WHERE ? = FRIENDER_username AND ? = FRIEND_username");
+                    stmt.setString(1, friender_username);
+                    stmt.setString(2, friend_username);
+                    ResultSet resultSet = stmt.executeQuery();
+                    int count = 0;
+                    while (resultSet.next()) { count++; }
+
+                    if (count == 0) {
+                            stmt = con.prepareStatement(
+                                                    "INSERT INTO Friendship VALUES (?,?);"
+                                       );
+                            stmt.setString(1, friender_username);
+                            stmt.setString(2, friend_username);
+                            stmt.executeUpdate();
+                    }
+
+            } finally {
+                    if (stmt != null) {
+                            stmt.close();
+                    }
+                    if (con != null) {
+                            con.close();
+                    }
+            }
+    }
     
+    public static void removeReview(int R_ID)
+                throws ClassNotFoundException, SQLException {
+            Connection con = null;
+            PreparedStatement stmt = null;
+
+            try {
+                    con = getConnection();
+                    stmt = con.prepareStatement("SELECT * FROM Review "
+                                    + "WHERE ? = R_ID");
+                    stmt.setInt(1, R_ID);
+                    ResultSet resultSet = stmt.executeQuery();
+                    int count = 0;
+                    while (resultSet.next()) { count++; }
+
+                    if (count == 0) {
+                            stmt = con.prepareStatement(
+                                        "DELETE FROM Review WHERE ? = R_ID;"
+                                       );
+                            stmt.setInt(1, R_ID);
+                            stmt.executeUpdate();
+                    }
+            } 
+            finally {
+                    if (stmt != null) {
+                            stmt.close();
+                    }
+                    if (con != null) {
+                            con.close();
+                    }
+            }
+    }
 }
