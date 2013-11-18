@@ -63,9 +63,8 @@ public class ReviewServlet extends HttpServlet {
                 recommendation = false;
             String comments = request.getParameter("comments");
             
-            ArrayList<Review> ret = new ArrayList<Review>();
             //MiniProjectDBAO.addDoctorReview(strDocUsername,strUsername,rating,recommendation,comments);
-            //ArrayList ret = MiniProjectDBAO.showDoctorReviews(strDocUsername);
+            ArrayList ret = DoctorDBAO.getDoctorReviews(strDocUsername);
             request.setAttribute("reviewList", ret);
             
         }

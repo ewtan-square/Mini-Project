@@ -6,6 +6,7 @@ package miniProject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,22 +30,29 @@ public class AdminServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        String url;
+        String strQueryNum = request.getParameter("qnum");
+        int intQueryNum = Integer.parseInt(strQueryNum);
+        
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AdminServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AdminServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
+            if(intQueryNum == 1){
+//                ArrayList ret = DoctorDBAO.getAllPatients();
+//                request.setAttribute("patientList", ret);
+                url="/viewPatients.jsp";
+            }
+            else if(intQueryNum == 2){
+                ArrayList ret = DoctorDBAO.getAllDoctors();
+                url="/viewDoctors.jsp";
+                request.setAttribute("doctorList", ret);
+            }
+            else
+                url = "/fancyError.jsp";
+        } catch (Exception e) {
+            request.setAttribute("exception", e);
+            url = "/fancyError.jsp";
         }
+        
+        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
