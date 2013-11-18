@@ -12,7 +12,7 @@
         <title>Rate My Doctor</title>
     </head>
     <%! String username;%>
-    <% username = (String)request.getAttribute("username"); %>
+    <% username = (String)request.getSession().getAttribute("username"); %>
     <body>
         <%
         out.print("<h2>Hello ");

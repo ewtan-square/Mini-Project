@@ -37,8 +37,14 @@ public class UpdateDoctorServlet extends HttpServlet {
         returnRequest = request;
         
         String username = (String)request.getSession().getAttribute("username");
+        String accType = (String)request.getSession().getAttribute("accType");
+        String url="/doctorProfile.jsp";
         
-        String url = "/doctorProfile.jsp";
+        if(!accType.equals("doctor")){
+            url="/fancyError.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+            return;
+        }
         try {
             request.setAttribute("workAddressList", DoctorDBAO.getWorkAddresses(username));
             request.setAttribute("specializationList", DoctorDBAO.getSpecializations(username));
@@ -50,9 +56,6 @@ public class UpdateDoctorServlet extends HttpServlet {
             else if (updateRequest.equals("specialization")) {
                 addSpecializationHelper(request, response);
                 request.setAttribute("specializationList", DoctorDBAO.getSpecializations(username));
-            }
-            else {
-                url = "/doctorProfile.jsp";
             }
         } 
         catch (Exception e) {

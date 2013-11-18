@@ -30,7 +30,14 @@ public class SearchReviewServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = "/fancyError.jsp";
+        String accType = (String)request.getSession().getAttribute("accType");
+        String url="/doctorProfile.jsp";
+        
+        if(!accType.equals("admin")){
+            url="/fancyError.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+            return;
+        }
         try {
             String date = request.getParameter("reviewDate");
             String dateRange = request.getParameter("dateRange");

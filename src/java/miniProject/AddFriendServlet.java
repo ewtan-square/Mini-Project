@@ -30,12 +30,19 @@ public class AddFriendServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url;
         String strQueryNum = request.getParameter("qnum");
         String username = (String)request.getSession().getAttribute("username");
         String alias = "";
         int intQueryNum = Integer.parseInt(strQueryNum);
-
+        String accType = (String)request.getSession().getAttribute("accType");
+        String url="";
+        
+        if(!accType.equals("patient"))
+        {
+            url="/fancyError.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+            return;
+        }
         String patientUsername = request.getParameter("pNum");
         try {
             url = "/friendResults.jsp";
