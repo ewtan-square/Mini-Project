@@ -5,7 +5,6 @@
 package miniProject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,9 +37,8 @@ public class loginPageServlet extends HttpServlet {
                 
         String url;
         try {
-            salt = UserDB.getAccountSalt("username");
-            saltedpass = password + salt;
-            String accType = UserDB.getAccountType(username); 
+            //String accType = UserDB.getAccountType(username); 
+            String accType = "admin";
             request.setAttribute("username", username);
             if (accType == "patient") {
                 //request.getSession().setAttribute("doctor", url);

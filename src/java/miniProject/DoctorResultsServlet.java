@@ -37,13 +37,14 @@ public class DoctorResultsServlet extends HttpServlet {
         
         String url;
         try {
+            //VIEW A SPECIFIC DOCTORS REVIEWS
             if(intQueryNum == 1){
-                //ArrayList ret = MiniProjectDBAO.showDoctorReviews(strDocUsername);
-                ArrayList<Review> ret = new ArrayList<Review>();
+                ArrayList ret = DoctorDBAO.getDoctorReviews(strDocUsername);
                 url = "/viewReviews.jsp";
                 request.setAttribute("reviewList", ret);
                 request.setAttribute("docUsername",strDocUsername);
             }
+            //CREATE REVIEW
             else if(intQueryNum == 2){
                 url = "/CreateReview.jsp";
                 queryhelper(request, response);
@@ -59,15 +60,17 @@ public class DoctorResultsServlet extends HttpServlet {
     protected void queryhelper(HttpServletRequest request, HttpServletResponse response)
             throws java.sql.SQLException, ClassNotFoundException {
         String strDocUsername = request.getParameter("docNum");
+        //PATIENT HOME
         if(strDocUsername == null){
             //QUERY WITH DOC INFO
-//            Doctor doctor = MiniProjectDBAO.queryDoctor("","","","","",2013,"","","","",0,false);
-//            request.setAttribute("doctor", ret);
+            ArrayList ret = DoctorDBAO.getAllDoctors();
+            request.setAttribute("doctorList", ret);
         }
+        //FROM DOCTOR RESULTS
         else{
             //QUERY WITH USER ID
-            //Doctor doctor = MiniProjectDBAO.queryDoctor(strDocUsername);
-            //request.setAttribute("doctor", ret);
+            //ArrayList ret = MiniProjectDBAO.queryDoctor(strDocUsername);
+            //request.setAttribute("doctorList", ret);
         }
     }
 

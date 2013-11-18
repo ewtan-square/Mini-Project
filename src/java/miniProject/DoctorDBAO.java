@@ -50,6 +50,7 @@ public class DoctorDBAO extends Query {
                 
                 doc.setWorkAddress(getWorkAddresses(username));
                 doc.setSpecialization(getSpecializations(username));
+                doctors.add(doc);
             }
            
         }
