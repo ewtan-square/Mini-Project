@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Francis
  */
-public class AddFriendServlet extends HttpServlet {
+public class ReviewResultsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -32,49 +32,22 @@ public class AddFriendServlet extends HttpServlet {
             throws ServletException, IOException {
         String url;
         String strQueryNum = request.getParameter("qnum");
-        String username = (String)request.getSession().getAttribute("username");
-        String alias = "";
         int intQueryNum = Integer.parseInt(strQueryNum);
-
-        String patientUsername = request.getParameter("pNum");
+        String strReviewID = request.getParameter("revNum");
+        int revID = Integer.parseInt(strReviewID);
         try {
-            url = "/friendResults.jsp";
-            //Add Friend
-            if(intQueryNum == 1){
-                //ADD AND RETURN FRIENDS OF PATIENT
-                //MiniProjectDBAO.addFriend(username,patientUsername);
-                //RETURN PATIENTS WHO ARE NOT FRIENDS
-                //ArrayList ret = MiniProjectDBAO.queryPatients(username,alias);
-                
-                ArrayList<Patient> friends = new ArrayList<Patient>();
-                ArrayList<Patient> ret = new ArrayList<Patient>();
-                Patient temp;
-                temp = new Patient("harvey","","","","","","","","","",ret);
-                friends.add(temp);
-                request.setAttribute("patientList",ret);
-                request.setAttribute("friendList",friends);
+            if(intQueryNum == 1)
+            {
+                //removeReview(revID);
+                //Array ret = queryReviews(null,"","");
+                ArrayList<Review> ret = new ArrayList<Review>();
+                request.setAttribute("reviewList", ret);
+                url = "/reviewResults.jsp";
             }
-            //Remove Friend
-            else if(intQueryNum == 2){
-                //REMOVE AND RETURN FRIENDS OF PATIENT
-                //ArrayList friends = MiniProjectDBAO.removeFriend(username,patientUsername);
-                //RETURN PATIENTS WHO ARE NOT FRIENDS
-                //ArrayList ret = MiniProjectDBAO.queryPatients(username,alias);
-                
-                ArrayList<Patient> friends = new ArrayList<Patient>();
-                ArrayList<Patient> ret = new ArrayList<Patient>();
-                Patient temp;
-                temp = new Patient("harvey","","","","","","","","","",friends);
-                ret.add(temp);
-                request.setAttribute("patientList",ret);
-                request.setAttribute("friendList",friends);
-            }
-            /* TODO output your page here. You may use following sample code. */
-        } catch (Exception e) {
-            url="/fancyError.jsp";
+        }catch (Exception e) {
+            request.setAttribute("exception", e);
+            url = "/fancyError.jsp";
         }
-        
-        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

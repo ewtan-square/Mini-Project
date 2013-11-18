@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Francis
  */
-public class AddFriendServlet extends HttpServlet {
+public class SearchReviewServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -30,48 +30,23 @@ public class AddFriendServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url;
-        String strQueryNum = request.getParameter("qnum");
-        String username = (String)request.getSession().getAttribute("username");
-        String alias = "";
-        int intQueryNum = Integer.parseInt(strQueryNum);
-
-        String patientUsername = request.getParameter("pNum");
+        String url = "/fancyError.jsp";
         try {
-            url = "/friendResults.jsp";
-            //Add Friend
-            if(intQueryNum == 1){
-                //ADD AND RETURN FRIENDS OF PATIENT
-                //MiniProjectDBAO.addFriend(username,patientUsername);
-                //RETURN PATIENTS WHO ARE NOT FRIENDS
-                //ArrayList ret = MiniProjectDBAO.queryPatients(username,alias);
-                
-                ArrayList<Patient> friends = new ArrayList<Patient>();
-                ArrayList<Patient> ret = new ArrayList<Patient>();
-                Patient temp;
-                temp = new Patient("harvey","","","","","","","","","",ret);
-                friends.add(temp);
-                request.setAttribute("patientList",ret);
-                request.setAttribute("friendList",friends);
-            }
-            //Remove Friend
-            else if(intQueryNum == 2){
-                //REMOVE AND RETURN FRIENDS OF PATIENT
-                //ArrayList friends = MiniProjectDBAO.removeFriend(username,patientUsername);
-                //RETURN PATIENTS WHO ARE NOT FRIENDS
-                //ArrayList ret = MiniProjectDBAO.queryPatients(username,alias);
-                
-                ArrayList<Patient> friends = new ArrayList<Patient>();
-                ArrayList<Patient> ret = new ArrayList<Patient>();
-                Patient temp;
-                temp = new Patient("harvey","","","","","","","","","",friends);
-                ret.add(temp);
-                request.setAttribute("patientList",ret);
-                request.setAttribute("friendList",friends);
-            }
-            /* TODO output your page here. You may use following sample code. */
+            String date = request.getParameter("reviewDate");
+            String dateRange = request.getParameter("dateRange");
+            Boolean range = true;
+            if(dateRange.equals("earlier"))
+                range = false;
+            String keyword = request.getParameter("keyword");
+            
+            //ArrayList ret = queryReviews(range,date,keyword);
+            ArrayList<Review> ret = new ArrayList<Review>();
+            request.setAttribute("reviewList", ret);
+            url = "/reviewResults.jsp";
+            
         } catch (Exception e) {
-            url="/fancyError.jsp";
+            request.setAttribute("exception", e);
+            url = "/fancyError.jsp";
         }
         
         getServletContext().getRequestDispatcher(url).forward(request, response);
