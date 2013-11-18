@@ -39,10 +39,14 @@
                         out.print("<li>");
                         out.print(wa.getStreet());
                         out.print(", ");
-                        out.print(wa.getStreet());
+                        out.print(wa.getCity());
+                        out.print(", ");
+                        out.print(wa.getProvince());
+                        out.print(", ");
+                        out.print(wa.getPostalCode());
                         out.print("</li>");
                     }
-                    out.print("</ul></td><td></ul>");
+                    out.print("</ul></td><td><ul>");
                     for(String s : doc.getSpecializations())
                     {
                         out.print("<li>");

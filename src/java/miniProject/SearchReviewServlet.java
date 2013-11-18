@@ -6,6 +6,7 @@ package miniProject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,16 @@ public class SearchReviewServlet extends HttpServlet {
         try {
             String date = request.getParameter("reviewDate");
             String dateRange = request.getParameter("dateRange");
+            Boolean range = true;
+            if(dateRange.equals("earlier"))
+                range = false;
+            String keyword = request.getParameter("keyword");
+            
+            //ArrayList ret = queryReviews(range,date,keyword);
+            ArrayList<Review> ret = new ArrayList<Review>();
+            request.setAttribute("reviewList", ret);
+            url = "/reviewResults.jsp";
+            
         } catch (Exception e) {
             request.setAttribute("exception", e);
             url = "/fancyError.jsp";

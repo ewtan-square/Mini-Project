@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Francis
  */
-public class AdminServlet extends HttpServlet {
+public class ReviewResultsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -33,28 +33,21 @@ public class AdminServlet extends HttpServlet {
         String url;
         String strQueryNum = request.getParameter("qnum");
         int intQueryNum = Integer.parseInt(strQueryNum);
-        
+        String strReviewID = request.getParameter("revNum");
+        int revID = Integer.parseInt(strReviewID);
         try {
-            if(intQueryNum == 1){
-//                ArrayList ret = DoctorDBAO.getAllPatients();
-//                request.setAttribute("patientList", ret);
-                ArrayList<Patient> ret = new ArrayList<Patient>();
-                request.setAttribute("patientList", ret);
-                url="/viewPatients.jsp";
+            if(intQueryNum == 1)
+            {
+                //removeReview(revID);
+                //Array ret = queryReviews(null,"","");
+                ArrayList<Review> ret = new ArrayList<Review>();
+                request.setAttribute("reviewList", ret);
+                url = "/reviewResults.jsp";
             }
-            else if(intQueryNum == 2){
-                ArrayList ret = DoctorDBAO.getAllDoctors();
-                url="/viewDoctors.jsp";
-                request.setAttribute("doctorList", ret);
-            }
-            else
-                url = "/fancyError.jsp";
-        } catch (Exception e) {
+        }catch (Exception e) {
             request.setAttribute("exception", e);
             url = "/fancyError.jsp";
         }
-        
-        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
