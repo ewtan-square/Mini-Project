@@ -5,6 +5,11 @@
 package miniProject;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,32 +31,36 @@ public class loginPageServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException, NoSuchAlgorithmException {
         String username = (String)request.getParameter("username");
         String password = (String)request.getParameter("userPass");
-        String saltedpass;
-        String salt = "";
         
         request.getSession().setAttribute("username", username);
         request.getSession().setAttribute("userPass", password);
                 
         String url;
         try {
-            //String accType = UserDB.getAccountType(username); 
-            String accType = "admin";
+            String accType = UserDB.getAccountType(username); 
             request.setAttribute("username", username);
-            if (accType == "patient") {
-                //request.getSession().setAttribute("doctor", url);
-                url = "/patientHome.jsp";
-            }
-            else if (accType == "doctor") {
-                url = "/doctorHome.jsp";
-            }
-            else if (accType == "admin") {
-                url = "/adminHome.jsp";
+            ArrayList<String> tmp = UserDB.authenticate(username, password);
+            boolean authenticated = tmp.get(0).equals(tmp.get(1));
+            if (authenticated == true) {
+                if (accType == "patient") {
+                    url = "/patientHome.jsp";
+                }
+                else if (accType == "doctor") {
+                    url = "/doctorHome.jsp";
+                }
+                else if (accType == "admin") {
+                    url = "/adminHome.jsp";
+                }
+                else {
+                    request.setAttribute("loginError", (String)"Authentication Failed - Not a Patient/Doctor/Admin");
+                    url = "/login.jsp";
+                }
             }
             else {
-                request.setAttribute("loginError", (String)"Invalid Login Credentials, don't screw it up again.");
+                request.setAttribute("loginError", (String)tmp.get(0) + " vs " + tmp.get(1));
                 url = "/login.jsp";
             }
         } catch (Exception e) {
@@ -75,7 +84,15 @@ public class loginPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(loginPageServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(loginPageServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(loginPageServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -90,7 +107,15 @@ public class loginPageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(loginPageServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(loginPageServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(loginPageServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

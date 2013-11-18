@@ -19,7 +19,7 @@
                 <%! String username = ""; %>
                 <% username = ((String)request.getAttribute("username") == null) ? "" : (String) request.getAttribute("username"); %>
                 Username: <input type="text" name="username" size="20" value="<%= username%>"><br/> 
-                Password: <input type="text" name="password" size="20"><br/>   
+                Password: <input type="password" name="password" size="20"><br/>   
                 <%! String firstName = ""; %>
                 <% username = ((String)request.getAttribute("firstName") == null) ? "" : (String) request.getAttribute("firstName"); %>
                 First name: <input type="text" name="firstName" size="20" value="<%= firstName%>"><br/>   
@@ -58,7 +58,7 @@
                 Home Address<br/>
                 <%! String province = ""; %>
                 <% province = ((String)request.getAttribute("province") == null) ? "" : (String) request.getAttribute("province"); %>
-                Province: <input type="text" name="province" size="20" value="<%= province%>"><br/>
+                Province: <input type="text" name="province" maxlength="2" size="20" value="<%= province%>"><br/>
                 <%! String city = ""; %>
                 <% city = ((String)request.getAttribute("city") == null) ? "" : (String) request.getAttribute("city"); %>
                 City: <input type="text" name="city" size="20" value="<%= city%>"><br/>
