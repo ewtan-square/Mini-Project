@@ -37,8 +37,6 @@ public class loginPageServlet extends HttpServlet {
                 
         String url;
         try {
-            salt = UserDB.getAccountSalt("username");
-            saltedpass = password + salt;
             String accType = UserDB.getAccountType(username); 
             request.setAttribute("username", username);
             if (accType == "patient") {
