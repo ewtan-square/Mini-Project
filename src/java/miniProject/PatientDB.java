@@ -159,21 +159,32 @@ public class PatientDB extends Query{
                 retval = false;
             }
             else {
-                stmt = con.prepareStatement("INSERT INTO Patient "
-
-                            + "VALUES (?,?,?,?,?,?,?,?,?,?)");
-                stmt.setString(1, P.getUsername());
-                stmt.setString(2, P.getFirstName());
-                stmt.setString(3, P.getLastName());
-                stmt.setString(4, P.getEmail());
-                stmt.setString(5, P.getDOB());
-                stmt.setString(6, P.getGender());
-                stmt.setString(7, P.getHomeProvince());
-                stmt.setString(8, P.getHomeCity());
-                stmt.setString(9, P.getHomePostalCode());
-                stmt.setString(10, P.getHomeStreet());
-                stmt.executeUpdate();
-                retval = true;
+                
+                stmt = con.prepareStatement("SELECT * FROM Patient WHERE ? = username");
+                stmt.setString(1, username);
+                ResultSet resultSet = stmt.executeQuery();
+                int count = 0;
+                while ( resultSet.next() ) { count++; }
+                
+                if (count == 0) {
+                    stmt = con.prepareStatement("INSERT INTO Patient "
+                                + "VALUES (?,?,?,?,?,?,?,?,?,?)");
+                    stmt.setString(1, P.getUsername());
+                    stmt.setString(2, P.getFirstName());
+                    stmt.setString(3, P.getLastName());
+                    stmt.setString(4, P.getEmail());
+                    stmt.setString(5, P.getDOB());
+                    stmt.setString(6, P.getGender());
+                    stmt.setString(7, P.getHomeProvince());
+                    stmt.setString(8, P.getHomeCity());
+                    stmt.setString(9, P.getHomePostalCode());
+                    stmt.setString(10, P.getHomeStreet());
+                    stmt.executeUpdate();
+                    retval = true;
+                }
+                else {
+                    retval = false;
+                }
             }
         } 
         catch (SQLException se) {
