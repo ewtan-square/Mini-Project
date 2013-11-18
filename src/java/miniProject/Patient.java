@@ -79,4 +79,5 @@ public class Patient {
     public void setHomeStreet(String homeStreet) { this.homeStreet = homeStreet; }
     public ArrayList<Patient> getFriends() { return friends; }
     public void addFriends(Patient patient) { this.friends.add(patient); }
+    public void setFriends(ArrayList<Patient> friends) {this.friends = friends;}
 }

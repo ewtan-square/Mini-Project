@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.text.DateFormat;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import static miniProject.Query.getConnection;
 
@@ -19,20 +20,23 @@ import static miniProject.Query.getConnection;
  * @author jonathan
  */
 public class DoctorDBAO extends Query {
-    
+    //TESTED
     public static boolean createDoctor(Doctor D)
            throws SQLException, ClassNotFoundException
     {
        
         Connection con = null;
         PreparedStatement stmt = null;
+        Boolean retval;
                         
         try {
             con = getConnection();
+            con.setAutoCommit(false);
+            con.setTransactionIsolation( Connection.TRANSACTION_SERIALIZABLE);
             if (D.getUsername() == null || D.getFirstName() == null || D.getGender() == null || D.getLastName() == null ||
                      D.getDOB() == null || D.getHomeProvince() == null || D.getHomeCity() == null || 
                     D.getHomePostalCode() == null || D.getHomeStreet() == null) {
-                return false;
+                retval = false;
             }
             else {
                 stmt = con.prepareStatement("INSERT INTO Doctor "
@@ -58,8 +62,11 @@ public class DoctorDBAO extends Query {
                 stmt.setString(9, D.getHomePostalCode());
                 stmt.setString(10, D.getHomeStreet());
                 stmt.executeUpdate();
-                return true;
+                retval = true;
             }
+        }  catch(SQLException se){
+            con.rollback();
+            retval = false;
         } 
         finally {
             if (stmt != null) {
@@ -69,8 +76,10 @@ public class DoctorDBAO extends Query {
                 con.close();
             }
         }
+        return retval;
     }
     
+    //TESTED
     public static ArrayList<Doctor> getAllDoctors()
             throws ClassNotFoundException, SQLException {
         
@@ -118,7 +127,56 @@ public class DoctorDBAO extends Query {
         
     }
     
+    //TESED
+    public static ArrayList<Doctor> queryDoctor(String username)
+            throws ClassNotFoundException, SQLException {
+        
+        Connection con = null;
+        ArrayList<Doctor> doctors = new ArrayList<Doctor>();
+        PreparedStatement stmt = null;
+        try {
+            con = getConnection();
+            stmt = con.prepareStatement("SELECT * FROM Doctor WHERE ? = username;");
+            stmt.setString(1, username);
+            ResultSet results = stmt.executeQuery();
+            
+            DateFormat df = new SimpleDateFormat("yyyy/MM/dd");  
+            
+            while(results.next()) {
+                String date = df.format(results.getDate("DoB"));
+                //String username = results.getString("username");
+                Doctor doc = new Doctor(
+                    username,
+                    results.getString("first_name"),
+                    results.getString("last_name"),
+                    results.getString("gender"),
+                    date,
+                    results.getInt("license_year"),
+                    results.getString("province"),
+                    results.getString("city"),
+                    results.getString("postal_code"),
+                    results.getString("street_address")                        
+                );
+                
+                doc.setWorkAddress(getWorkAddresses(username));
+                doc.setSpecialization(getSpecializations(username));
+                doctors.add(doc);
+            }
+           
+        }
+        finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return doctors;
+        
+    }
     
+    //TESTED
     public static ArrayList<WorkAddress> getWorkAddresses(String username)
             throws ClassNotFoundException, SQLException {
         Connection con = null;
@@ -186,7 +244,7 @@ public class DoctorDBAO extends Query {
         }
     }
     
-
+    //TESTED
     public static ArrayList<Review> getDoctorReviews(String username)
             throws ClassNotFoundException, SQLException {
         
@@ -211,7 +269,7 @@ public class DoctorDBAO extends Query {
                         results.getInt("R_ID"),
                         results.getInt("Rating"),
                         results.getBoolean("recommendation"),
-                        results.getString("comment"),
+                        results.getString("comment_text"),
                         date
                 ));
             }
@@ -236,6 +294,8 @@ public class DoctorDBAO extends Query {
 
         try {
             con = getConnection();
+            con.setAutoCommit(false);
+            con.setTransactionIsolation( Connection.TRANSACTION_SERIALIZABLE);
             stmt = con.prepareStatement("SELECT * FROM Work_Address "
                     + "WHERE ? = D_username AND ? = province AND ? = city AND ? = postal_code AND ? = street_address;");
             stmt.setString(1, username);
@@ -259,6 +319,46 @@ public class DoctorDBAO extends Query {
                 stmt.executeUpdate();
             }
 
+        } catch(SQLException se){
+            con.rollback();
+        }  finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+    
+    //TESTED
+    public static void newDoctorReview(String docUsername, String patUsername, 
+            int rating, Boolean recommendation, String comments)
+            throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        try {
+            con = getConnection();
+            con.setAutoCommit(false);
+            con.setTransactionIsolation( Connection.TRANSACTION_SERIALIZABLE);
+            stmt = con.prepareStatement("INSERT INTO Review VALUES (?,?,?,?,?,?,?);");
+            DateFormat df = new SimpleDateFormat("yyyy/MM/dd"); 
+            Date date = new Date();
+            
+            
+            
+            stmt.setString(1, docUsername);
+            stmt.setString(2, patUsername);
+            stmt.setNull(3, 3);
+            stmt.setString(4, df.format(date));
+            stmt.setInt(5, rating);
+            stmt.setBoolean(6, recommendation);
+            stmt.setString(7, comments);
+            stmt.executeUpdate();
+
+        } catch(SQLException se){
+            con.rollback();
         } finally {
             if (stmt != null) {
                 stmt.close();
@@ -268,6 +368,7 @@ public class DoctorDBAO extends Query {
             }
         }
     }
+    
 
     public static void newSpecialization(String username, String area)
             throws ClassNotFoundException, SQLException {
@@ -276,6 +377,8 @@ public class DoctorDBAO extends Query {
 
         try {
             con = getConnection();
+            con.setAutoCommit(false);
+            con.setTransactionIsolation( Connection.TRANSACTION_SERIALIZABLE);
             stmt = con.prepareStatement("SELECT * FROM Doctor_Specialization "
                     + "WHERE ? = D_username AND ? = area;");
             stmt.setString(1, username);
@@ -296,6 +399,8 @@ public class DoctorDBAO extends Query {
                 
             }
 
+        } catch(SQLException se){
+            con.rollback();
         } finally {
             if (stmt != null) {
                 stmt.close();
@@ -308,7 +413,7 @@ public class DoctorDBAO extends Query {
     
     public static ArrayList<Doctor> queryDoctor(String firstname,
             String lastname, String gender, String province, String postalcode, String city,
-            String street, String specialization, Integer license_year, Integer rating_at_least,
+            String street, String specialization, Integer license_year, Double rating_at_least,
             Boolean recommended, String patient_username)
             throws ClassNotFoundException, SQLException {
         Connection con = null;
@@ -399,7 +504,7 @@ public class DoctorDBAO extends Query {
                     stmt.setInt(count, license_year);
                 }
                 else if (argument.equals("rating_at_least")){
-                    stmt.setInt(count, rating_at_least);
+                    stmt.setDouble(count, rating_at_least);
                 }
                 else {
                     stmt.setString(count, "%" + argument + "%");
@@ -428,6 +533,7 @@ public class DoctorDBAO extends Query {
                 doc.setWorkAddress(getWorkAddresses(username));
                 doc.setSpecialization(getSpecializations(username));
                 doc.setAverageStarRating(results.getDouble("avg_rating"));
+
                 result_doctors.add(doc);
             }
         }

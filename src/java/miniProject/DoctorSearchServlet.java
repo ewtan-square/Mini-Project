@@ -30,7 +30,15 @@ public class DoctorSearchServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url;
+        String accType = (String)request.getSession().getAttribute("accType");
+        String url="";
+        
+        if(!accType.equals("patient"))
+        {
+            url="/fancyError.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+            return;
+        }
         try {
             /* TODO output your page here. You may use following sample code. */
             queryhelper(request, response);
@@ -60,16 +68,15 @@ public class DoctorSearchServlet extends HttpServlet {
         String postalCode = request.getParameter("postalCode");
         String streetAddress = request.getParameter("streetAddress");
         String strRating = request.getParameter("rating");
-        int starRating = 0;
+        double starRating = 0;
         if (!strRating.equals("")) {
-            starRating = Integer.parseInt(strRating);
+            starRating = Double.parseDouble(strRating);
         }
         
         String strRecommended =  request.getParameter("recommended");
         Boolean recommendation = true;
         if(strRecommended == null)
             recommendation = false;
-        
         
 //        ArrayList<Doctor> ret = new ArrayList<Doctor>();
 //        ArrayList<WorkAddress> tmp = new ArrayList<WorkAddress>();
@@ -92,6 +99,7 @@ public class DoctorSearchServlet extends HttpServlet {
 //        ArrayList ret = MiniProjectDBAO.queryDoctor(firstName, lastName, gender, dob, specialization,
 //                licenseYear, province, city, postalCode, streetAddress, starRating, recommendation);
 //                request.setAttribute("doctorList", ret);
+
     }    
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

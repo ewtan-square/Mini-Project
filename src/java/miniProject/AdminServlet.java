@@ -30,15 +30,19 @@ public class AdminServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url;
         String strQueryNum = request.getParameter("qnum");
         int intQueryNum = Integer.parseInt(strQueryNum);
+        String accType = (String)request.getSession().getAttribute("accType");
+        String url="";
         
+        if(!accType.equals("admin")){
+            url="/fancyError.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+            return;
+        }
         try {
             if(intQueryNum == 1){
-//                ArrayList ret = DoctorDBAO.getAllPatients();
-//                request.setAttribute("patientList", ret);
-                ArrayList<Patient> ret = new ArrayList<Patient>();
+                ArrayList ret = PatientDB.getAllPatients();
                 request.setAttribute("patientList", ret);
                 url="/viewPatients.jsp";
             }

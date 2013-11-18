@@ -150,8 +150,7 @@ public class newUserServlet extends HttpServlet {
         ArrayList<Patient> tmp2 = new ArrayList<Patient>();
         Patient p = new Patient(
             username, userFirstName, gender, userLastName, birthday,
-            email, province, city, postalcode, streetAddress, 
-            tmp2);
+            email, province, city, postalcode, streetAddress);
 //        boolean ret = false;
 //        try {
 //             ret = PatientDB.createPatient(p);

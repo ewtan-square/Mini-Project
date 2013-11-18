@@ -32,9 +32,16 @@ public class ReviewServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url;
         String strDocUsername = request.getParameter("docUsername");
         request.setAttribute("docUsername", strDocUsername);
+        String accType = (String)request.getSession().getAttribute("accType");
+        String url="";
+        
+        if(!accType.equals("patient")){
+            url="/fancyError.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+            return;
+        }
         try {
             url = "/viewReviews.jsp";
 //            if(strDocUsername == null || strDocUsername.equals("")){
@@ -63,7 +70,7 @@ public class ReviewServlet extends HttpServlet {
                 recommendation = false;
             String comments = request.getParameter("comments");
             
-            //MiniProjectDBAO.addDoctorReview(strDocUsername,strUsername,rating,recommendation,comments);
+            DoctorDBAO.newDoctorReview(strDocUsername,strUsername,rating,recommendation,comments);
             ArrayList ret = DoctorDBAO.getDoctorReviews(strDocUsername);
             request.setAttribute("reviewList", ret);
             
