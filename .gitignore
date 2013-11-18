@@ -5,3 +5,4 @@ build/web/WEB-INF/classes/miniProject/*.class
 build/web/WEB-INF/classes/.netbeans_automatic_build
 build/web/WEB-INF/classes/.netbeans_update_resources
 dist/
+build/web/WEB-INF/lib
