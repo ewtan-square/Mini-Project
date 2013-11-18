@@ -27,7 +27,7 @@ public class UserDB extends Query{
         try {
             con = getConnection();
             
-            stmt = con.prepareStatement("SELECT salt FROM Account WHERE "
+            stmt = con.prepareStatement("SELECT * FROM Account WHERE "
                     + "username = ?;");
             
             stmt.setString(1, username);
