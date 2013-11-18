@@ -82,7 +82,7 @@ public class DoctorDBAO extends Query {
             ret = new ArrayList<WorkAddress>();
             while (resultSet.next()) {
                 WorkAddress wa = new WorkAddress(
-                    resultSet.getInt("D_ID"),
+                    resultSet.getString("username"),
                     resultSet.getString("province"),
                     resultSet.getString("city"),
                     resultSet.getString("postal_code"),

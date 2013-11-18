@@ -9,23 +9,23 @@ package miniProject;
  * @author Francis
  */
 public class WorkAddress {
-    private int docID;
+    private String username;
     private String province;
     private String city;
     private String postalCode;
     private String street;
     
-    public WorkAddress(int docID, String province, String City, String postalCode, String street)
+    public WorkAddress(String username, String province, String City, String postalCode, String street)
     {
-        this.docID=docID;
+        this.username=username;
         this.province=province;
         this.city=city;
         this.postalCode=postalCode;
         this.street=street;
     }
     
-    public int getDocID() { return docID; }
-    public void setDocID(int docID) { this.docID = docID; }
+    public String getDocUsername() { return username; }
+    public void setDocID(String username) { this.username = username; }
     public String getCity() { return city; }
     public void setCity(String city) { this.city = city; }
     public String getProvince() { return province; }

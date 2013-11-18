@@ -36,16 +36,20 @@ public class UpdateDoctorServlet extends HttpServlet {
         
         returnRequest = request;
         
+        String username = (String)request.getSession().getAttribute("username");
+        
         String url = "/doctorProfile.jsp";
         try {
+            request.setAttribute("workAddressList", DoctorDBAO.getWorkAddresses(username));
+
             if (updateRequest.equals("workaddress")) {
                 addWorkAddressHelper(request, response);
             }
             else if (updateRequest.equals("specialization")) {
-                //addDoctorHelper(request, response);
+                //addSpecializationHelper(request, response);
             }
             else {
-                url = "/login.jsp";
+                url = "/doctorProfile.jsp";
             }
         } 
         catch (Exception e) {

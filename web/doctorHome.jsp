@@ -16,6 +16,20 @@
         <% username = ((String)request.getSession().getAttribute("username") == null) ? 
                             "" : (String) request.getSession().getAttribute("username"); %>
         <h1>Hellooooooo Doctor, <%= username%>!</h1>
-        <li><a href="doctorProfile.jsp">Update your work address(es) or Add Specialties</a></li>
+        <style type="text/css" media="screen">
+        input {
+          border: none;
+          background: none;
+          color: #00f;
+          text-decoration: underline;
+          cursor: pointer;
+          display: in-line;
+          margin: 0px;
+          padding: 0px;
+        }
+        </style>
+        <form method="post" action="UpdateDoctorServlet?type=none">
+            <li><input type="submit" value="Update your work address(es) or Add Specialties"/></li>
+        </form>
     </body>
 </html>

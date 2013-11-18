@@ -48,9 +48,10 @@
             <%
                 }
             %>
-        <%
+            </table>
+            <%
             }
-        %></table>
+            %>
         <h1>Doctor Specialties</h1>
         <h2>Add a Specialty</h2>
         <form method="post" action="UpdateDoctorServlet?type=specialization">
