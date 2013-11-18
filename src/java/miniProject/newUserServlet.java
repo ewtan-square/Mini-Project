@@ -6,6 +6,9 @@ package miniProject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,15 +39,27 @@ public class newUserServlet extends HttpServlet {
         String newUserType = request.getParameter("type");
         
         String url = "/fancyError.jsp";
+        boolean result = false;
         try {
-            newUserType.equals("doctor");
             if (newUserType.equals("patient")) {
-                addPatientHelper(request, response);
-                url = "/login.jsp";
+                result = addUserHelper(request,response);
+                if (result == false) {
+                    throw new SQLException("failed user creation");
+                }
+                result = addPatientHelper(request, response);
+                if (result == false) {
+                    throw new SQLException("failed patient creation");
+                }
             }
             else if (newUserType.equals("doctor")) {
-                addDoctorHelper(request, response);
-                url = "/login.jsp";
+                result = addUserHelper(request,response);
+                if (result == false) {
+                    throw new SQLException("failed user creation");
+                }
+                result = addDoctorHelper(request, response);
+                if (result == false) {
+                    throw new SQLException("failed doctor creation");
+                }
             }
             else {
                 url = "/login.jsp";
@@ -67,11 +82,21 @@ public class newUserServlet extends HttpServlet {
             }
         }
         finally {
+            if (result == true) {
+                url = "/login.jsp";
+            }
             getServletContext().getRequestDispatcher(url).forward(request, response);
         }
     }
     
-    protected void addPatientHelper(HttpServletRequest request, HttpServletResponse response)
+    protected boolean addUserHelper(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ClassNotFoundException, FormIncompleteException, NoSuchAlgorithmException, UnsupportedEncodingException {
+        
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        return UserDB.createUser(username, password);
+    }
+    protected boolean addPatientHelper(HttpServletRequest request, HttpServletResponse response)
             throws java.sql.SQLException, ClassNotFoundException, FormIncompleteException {
         
         this.returnRequest = request;
@@ -101,7 +126,7 @@ public class newUserServlet extends HttpServlet {
         this.returnRequest.setAttribute("postalCode", (String)request.getParameter("postalCode"));
         String streetAddress = request.getParameter("streetAddress");
         this.returnRequest.setAttribute("streetAddress", (String)request.getParameter("streetAddress"));
-        
+                
         if (username.equals("")) {
             // Check if username exists already
             throw new FormIncompleteException("Username cannot be empty");
@@ -123,16 +148,23 @@ public class newUserServlet extends HttpServlet {
         }  
         
         ArrayList<Patient> tmp2 = new ArrayList<Patient>();
-        Patient em = new Patient(
+        Patient p = new Patient(
             username, userFirstName, gender, userLastName, birthday,
             email, province, city, postalcode, streetAddress, 
             tmp2);
-        // miniProject.addEmployee(em);
-        // ArrayList ret = miniProject.getEmployees();
-        // request.setAttribute("employeeList", ret);
+//        boolean ret = false;
+//        try {
+//             ret = PatientDB.createPatient(p);
+//        }
+//        catch (Exception e) {
+//            if (e instanceof SQLException) {
+//                throw new SQLException("patient insert failed");
+//            }
+//        }
+        return PatientDB.createPatient(p);
     }
     
-    protected void addDoctorHelper(HttpServletRequest request, HttpServletResponse response)
+    protected boolean addDoctorHelper(HttpServletRequest request, HttpServletResponse response)
             throws java.sql.SQLException, ClassNotFoundException, FormIncompleteException {
         this.returnRequest = request;
         
@@ -182,15 +214,22 @@ public class newUserServlet extends HttpServlet {
         if (province.equals("") || city.equals("") || postalcode.equals("") || streetAddress.equals("")) {
             throw new FormIncompleteException("Address is must be complete");
         }  
-        ArrayList<WorkAddress> tmp = new ArrayList<WorkAddress>();
-        ArrayList<Patient> tmp2 = new ArrayList<Patient>();
-        ArrayList<Review> tmp3 = new ArrayList<Review>();
-        ArrayList<String> tmp4 = new ArrayList<String>();
-        int ilicenseYear = Integer.parseInt(licenseYear);
 
+        int ilicenseYear = Integer.parseInt(licenseYear);
+        
+//        boolean ret = false;
         Doctor doctor = new Doctor(username, userFirstName, userLastName, 
                 gender, birthday, ilicenseYear, province, city, postalcode, streetAddress);
-
+//        try {
+//             ret = DoctorDBAO.createDoctor(doctor);
+//        }
+//        catch (Exception e) {
+//            if (e instanceof SQLException) {
+//                throw new SQLException("doctor insert failed");
+//            }
+//        }
+        return DoctorDBAO.createDoctor(doctor);
+        
         // miniProject.addEmployee(em);
         // ArrayList ret = miniProject.getEmployees();
         // request.setAttribute("employeeList", ret);

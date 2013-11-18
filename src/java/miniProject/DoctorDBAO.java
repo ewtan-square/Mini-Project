@@ -19,6 +19,58 @@ import static miniProject.Query.getConnection;
  * @author jonathan
  */
 public class DoctorDBAO extends Query {
+    
+    public static boolean createDoctor(Doctor D)
+           throws SQLException, ClassNotFoundException
+    {
+       
+        Connection con = null;
+        PreparedStatement stmt = null;
+                        
+        try {
+            con = getConnection();
+            if (D.getUsername() == null || D.getFirstName() == null || D.getGender() == null || D.getLastName() == null ||
+                     D.getDOB() == null || D.getHomeProvince() == null || D.getHomeCity() == null || 
+                    D.getHomePostalCode() == null || D.getHomeStreet() == null) {
+                return false;
+            }
+            else {
+                stmt = con.prepareStatement("INSERT INTO Doctor "
+                        + "(username, "
+                        + "first_name, "
+                        + "last_name, "
+                        + "license_year, "
+                        + "DoB, "
+                        + "gender, "
+                        + "province, "
+                        + "city, "
+                        + "postal_code, "
+                        + "street_address) "
+                        + "VALUES (?,?,?,?,?,?,?,?,?,?)");
+                stmt.setString(1, D.getUsername());
+                stmt.setString(2, D.getFirstName());
+                stmt.setString(3, D.getLastName());
+                stmt.setInt(4, D.getLicenseYear());
+                stmt.setString(5, D.getDOB());
+                stmt.setString(6, D.getGender());
+                stmt.setString(7, D.getHomeProvince());
+                stmt.setString(8, D.getHomeCity());
+                stmt.setString(9, D.getHomePostalCode());
+                stmt.setString(10, D.getHomeStreet());
+                stmt.executeUpdate();
+                return true;
+            }
+        } 
+        finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+    
     public static ArrayList<Doctor> getAllDoctors()
             throws ClassNotFoundException, SQLException {
         

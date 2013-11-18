@@ -17,7 +17,7 @@ public class Query {
             //public static final String host = "localhost";
     public static final String host = "eceweb";
     public static final String url = "jdbc:mysql://" + host + ":3306/";
-    public static final String nid = "rjaceved";
+    public static final String nid = "ewtan";
     public static final String user = "user_" + nid;
     public static final String pwd = "user_" + nid;
     

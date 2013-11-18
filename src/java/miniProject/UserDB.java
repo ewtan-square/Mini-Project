@@ -4,6 +4,8 @@
  */
 package miniProject;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -24,23 +26,15 @@ import static miniProject.Query.getConnection;
  */
 public class UserDB extends Query{
     
-    private final static int ITERATION_NUMBER = 1000;
-    
-    public byte[] getHash(int iterationNb, String password, String salt) 
+    public static String getHash(String password, String salt) 
                         throws NoSuchAlgorithmException, UnsupportedEncodingException {
-       MessageDigest digest = MessageDigest.getInstance("SHA-256");
-       digest.reset();
-       byte[] byteSalt = salt.getBytes("UTF-8");
-       digest.update(byteSalt);
-       byte[] input = digest.digest(password.getBytes("UTF-8"));
-       for (int i = 0; i < iterationNb; i++) {
-           digest.reset();
-           input = digest.digest(input);
-       }
-       return input;
+       
+       String saltedHashed;
+       saltedHashed = DigestUtils.shaHex(password+salt).toString();
+       return saltedHashed;
     }
     
-    public boolean createUser(String username, String password)
+    public static boolean createUser(String username, String password)
            throws SQLException, NoSuchAlgorithmException, ClassNotFoundException, UnsupportedEncodingException
     {
        
@@ -59,14 +53,13 @@ public class UserDB extends Query{
                 
                 String salt = bSalt.toString();
                 // Digest computation
-                byte[] bDigest = getHash(ITERATION_NUMBER,password,salt);
-                String sDigest = bDigest.toString();
+                String hashedPassword = getHash(password,salt);
                 
                 stmt = con.prepareStatement("INSERT INTO Account (username, password, salt) VALUES (?,?,?)");
                 stmt.setString(1, username);
-                stmt.setString(2, sDigest);
+                stmt.setString(2, hashedPassword);
                 stmt.setString(3, salt);
-                
+                stmt.executeUpdate();
                 return true;
             }
             else {
@@ -83,8 +76,8 @@ public class UserDB extends Query{
         }
     }
     
-    public boolean authenticate(String username, String password)
-           throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static ArrayList<String> authenticate(String username, String password)
+           throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException {
        
         Connection con = null;
         PreparedStatement stmt = null;
@@ -92,8 +85,9 @@ public class UserDB extends Query{
 
         try {
             if (username.equals("") || password.equals("")) {
-                return false;
+                return null;
             }
+            con = getConnection();
             
             stmt = con.prepareStatement("SELECT password, salt FROM Account WHERE username = ?");
             stmt.setString(1, username);
@@ -113,16 +107,21 @@ public class UserDB extends Query{
                 }
             } 
             else {
-                return false;
+                return null;
             }
             
             // Get the hashed password
-            byte[] byteActualDigest = actualpassword.toString().getBytes("UTF-8");
+            String hashedInputPassword = getHash(password, salt);
             // Compute the new digest/inputted password
-            byte[] proposedDigest = getHash(ITERATION_NUMBER, password, salt);
-
-            return Arrays.equals(proposedDigest, byteActualDigest);
-        } catch (IOException ex){
+            String actualPassword = actualpassword;
+            
+            ArrayList<String> tmp = new ArrayList<String>();
+            tmp.add(hashedInputPassword);
+            tmp.add(actualPassword);
+            return tmp;
+            
+            //return Arrays.equals(proposedDigest, byteActualDigest);
+        } catch (Exception ex){
             throw new SQLException("Database inconsistant Salt or Digested Password altered");
         }
         finally{
