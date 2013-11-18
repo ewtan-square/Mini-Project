@@ -32,10 +32,13 @@ public class DoctorResultsServlet extends HttpServlet {
             throws ServletException, IOException {
         String strQueryNum = request.getParameter("qnum");
         int intQueryNum = Integer.parseInt(strQueryNum);
-        
         String strDocUsername = request.getParameter("docNum");
+        String accType = (String)request.getSession().getAttribute("accType");
+        String url="";
         
-        String url;
+        if(!accType.equals("patient"))
+            url="/fancyError.jsp";
+        
         try {
             //VIEW A SPECIFIC DOCTORS REVIEWS
             if(intQueryNum == 1){
@@ -49,8 +52,6 @@ public class DoctorResultsServlet extends HttpServlet {
                 url = "/CreateReview.jsp";
                 queryhelper(request, response);
             }
-            else
-                url="/fancyError.jsp";
         } catch (Exception e) {
             url="/fancyError.jsp";
         }
@@ -69,8 +70,8 @@ public class DoctorResultsServlet extends HttpServlet {
         //FROM DOCTOR RESULTS
         else{
             //QUERY WITH USER ID
-            //ArrayList ret = MiniProjectDBAO.queryDoctor(strDocUsername);
-            //request.setAttribute("doctorList", ret);
+            ArrayList ret = DoctorDBAO.queryDoctor(strDocUsername);
+            request.setAttribute("doctorList", ret);
         }
     }
 

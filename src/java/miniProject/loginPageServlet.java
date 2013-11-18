@@ -42,6 +42,7 @@ public class loginPageServlet extends HttpServlet {
             ArrayList<String> tmp = UserDB.authenticate(username, password);
             boolean authenticated = tmp.get(0).equals(tmp.get(1));
             if (authenticated == true) {
+                request.getSession().setAttribute("accType", accType);
                 request.getSession().setAttribute("username", username);
                 if (accType == "patient") {
                     url = "/patientHome.jsp";

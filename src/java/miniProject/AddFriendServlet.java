@@ -6,7 +6,10 @@ package miniProject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,13 +32,20 @@ public class AddFriendServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String url;
+            throws ServletException, IOException, SQLException {
         String strQueryNum = request.getParameter("qnum");
         String username = (String)request.getSession().getAttribute("username");
-        String alias = "";
+        String alias = (String)request.getSession().getAttribute("alias");
         int intQueryNum = Integer.parseInt(strQueryNum);
-
+        String accType = (String)request.getSession().getAttribute("accType");
+        String url="";
+        
+        if(!accType.equals("patient"))
+        {
+            url="/fancyError.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+            return;
+        }
         String patientUsername = request.getParameter("pNum");
         try {
             url = "/friendResults.jsp";
@@ -46,13 +56,15 @@ public class AddFriendServlet extends HttpServlet {
                 //RETURN PATIENTS WHO ARE NOT FRIENDS
                 //ArrayList ret = MiniProjectDBAO.queryPatients(username,alias);
                 
-                ArrayList<Patient> friends = new ArrayList<Patient>();
-                ArrayList<Patient> ret = new ArrayList<Patient>();
-                Patient temp;
-                temp = new Patient("harvey","","","","","","","","","",ret);
-                friends.add(temp);
+                PatientDB.newFriendship(username, patientUsername);
+                
+                ArrayList<Patient> friends = PatientDB.getFriends(username);
+                ArrayList<Patient> ret = PatientDB.findNewFriends(username, alias);
+
                 request.setAttribute("patientList",ret);
                 request.setAttribute("friendList",friends);
+                
+                url = "/friendResults.jsp";
             }
             //Remove Friend
             else if(intQueryNum == 2){
@@ -61,16 +73,21 @@ public class AddFriendServlet extends HttpServlet {
                 //RETURN PATIENTS WHO ARE NOT FRIENDS
                 //ArrayList ret = MiniProjectDBAO.queryPatients(username,alias);
                 
-                ArrayList<Patient> friends = new ArrayList<Patient>();
-                ArrayList<Patient> ret = new ArrayList<Patient>();
-                Patient temp;
-                temp = new Patient("harvey","","","","","","","","","",friends);
-                ret.add(temp);
+                PatientDB.removeFriend(username,patientUsername);
+                
+                ArrayList<Patient> friends = PatientDB.getFriends(username);
+                ArrayList<Patient> ret = PatientDB.findNewFriends(username, alias);
+                
                 request.setAttribute("patientList",ret);
                 request.setAttribute("friendList",friends);
+                
+                url = "/friendResults.jsp";
             }
             /* TODO output your page here. You may use following sample code. */
         } catch (Exception e) {
+            if (e instanceof SQLException) {
+                throw new SQLException(e);
+            }
             url="/fancyError.jsp";
         }
         
@@ -90,7 +107,11 @@ public class AddFriendServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddFriendServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -105,7 +126,11 @@ public class AddFriendServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddFriendServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

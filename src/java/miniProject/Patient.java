@@ -25,6 +25,20 @@ public class Patient {
     private ArrayList<Patient> friends;
     
     public Patient(String username, String firstName, String gender, String lastName, String dateOfBirth,
+            String email, String homeProvince, String homeCity, String homePostalCode, String homeStreet) {
+        this.username = username;
+        this.firstName = firstName;
+        this.gender = gender;
+        this.lastName = lastName;
+        this.email = email;
+        this.homeProvince = homeProvince;
+        this.homeCity = homeCity;
+        this.homePostalCode = homePostalCode;
+        this.homeStreet = homeStreet;
+        this.dateOfBirth = dateOfBirth;
+    }
+    
+    public Patient(String username, String firstName, String gender, String lastName, String dateOfBirth,
             String email, String homeProvince, String homeCity, String homePostalCode, String homeStreet, 
              ArrayList<Patient> friends)
     {
@@ -65,4 +79,5 @@ public class Patient {
     public void setHomeStreet(String homeStreet) { this.homeStreet = homeStreet; }
     public ArrayList<Patient> getFriends() { return friends; }
     public void addFriends(Patient patient) { this.friends.add(patient); }
+    public void setFriends(ArrayList<Patient> friends) {this.friends = friends;}
 }

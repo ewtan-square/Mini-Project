@@ -30,21 +30,49 @@ public class FriendSearchServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String searchQuery = (request.getParameter("type") != null) ? request.getParameter("type") : "";
+
         String url;
-        String alias = request.getParameter("alias");
+        String alias = request.getParameter("alias"); 
+
+        String accType = (String)request.getSession().getAttribute("accType");
+        
+        if(!accType.equals("patient"))
+        {
+            url="/fancyError.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+            return;
+        }
+        
+        String username = (String)request.getSession().getAttribute("username");
+        request.setAttribute("username", username);
+        
         try {
-            /* TODO output your page here. You may use following sample code. */
-            //ArrayList ret = MiniProjectDBAO.queryPatients(username,alias);
-            //ArrayList friend = MiniProjectDBAO.queryFriends(username);
-            ArrayList<Patient> friends = new ArrayList<Patient>();
-            ArrayList<Patient> ret = new ArrayList<Patient>();
-            Patient temp;
-            temp = new Patient("harvey","","","","","","","","","",friends);
-            ret.add(temp);
-            
-            url = "/friendResults.jsp";
-            request.setAttribute("patientList",ret);
-            request.setAttribute("friendList",friends);
+            ArrayList<Patient> friends = PatientDB.getFriends(username);
+            if (searchQuery.equals("none")) {
+                url = "/friendSearch.jsp";
+                request.setAttribute("friendList",friends);
+                
+            }
+            else if (searchQuery.equals("alias")) {
+                request.getSession().setAttribute("alias", alias);
+                /* TODO output your page here. You may use following sample code. */
+                //ArrayList ret = MiniProjectDBAO.queryPatients(username,alias);
+                //ArrayList friend = MiniProjectDBAO.queryFriends(username);
+                ArrayList<Patient> ret = new ArrayList<Patient>();
+                ret = PatientDB.findNewFriends(username,alias);
+                //Patient temp;
+                //temp = new Patient("harvey","","","","","","","","","");
+                //ret.add(temp);
+
+                url = "/friendResults.jsp";
+                request.setAttribute("patientList",ret);
+                request.setAttribute("friendList",friends);
+            }
+            else {
+                url = "/friendSearch.jsp";
+                request.setAttribute("friendList",friends);
+            }
         }catch (Exception e) {
             request.setAttribute("exception", e);
             url = "/fancyError.jsp";
