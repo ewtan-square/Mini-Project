@@ -46,6 +46,11 @@ public class SearchReviewServlet extends HttpServlet {
                 range = true;
             String keyword = request.getParameter("keyword");
             
+
+            request.getSession().setAttribute("range", range);
+            request.getSession().setAttribute("date", date);
+            request.getSession().setAttribute("keyword", keyword);
+            
             ArrayList ret = AdminDBAO.queryReviews(range,date,keyword);
             request.setAttribute("reviewList", ret);
             url = "/reviewResults.jsp";

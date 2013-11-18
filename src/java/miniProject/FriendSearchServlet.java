@@ -30,12 +30,10 @@ public class FriendSearchServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String searchQuery = (request.getParameter("type") != null) ? request.getParameter("type") : "";
-
-        String url;
-        String alias = request.getParameter("alias"); 
 
         String accType = (String)request.getSession().getAttribute("accType");
+        String url="";
+
         
         if(!accType.equals("patient"))
         {
@@ -43,11 +41,15 @@ public class FriendSearchServlet extends HttpServlet {
             getServletContext().getRequestDispatcher(url).forward(request, response);
             return;
         }
-        
+
+        String searchQuery = request.getParameter("type");
+        String alias = request.getParameter("alias");
+
         String username = (String)request.getSession().getAttribute("username");
         request.setAttribute("username", username);
         
         try {
+
             ArrayList<Patient> friends = PatientDB.getFriends(username);
             if (searchQuery.equals("none")) {
                 url = "/friendSearch.jsp";
@@ -73,6 +75,18 @@ public class FriendSearchServlet extends HttpServlet {
                 url = "/friendSearch.jsp";
                 request.setAttribute("friendList",friends);
             }
+
+            /* TODO output your page here. You may use following sample code. */
+            //ArrayList ret = MiniProjectDBAO.queryPatients(username,alias);
+            ArrayList<Patient> ret = new ArrayList<Patient>();
+            Patient temp;
+            temp = new Patient("harvey","","","","","","","","","");
+            ret.add(temp);
+            
+            url = "/friendResults.jsp";
+            request.setAttribute("patientList",ret);
+            request.setAttribute("friendList",friends);
+
         }catch (Exception e) {
             request.setAttribute("exception", e);
             url = "/fancyError.jsp";

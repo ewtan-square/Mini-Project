@@ -33,6 +33,7 @@ public class AddFriendServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
+
         String strQueryNum = request.getParameter("qnum");
         String username = (String)request.getSession().getAttribute("username");
         String alias = (String)request.getSession().getAttribute("alias");
@@ -72,12 +73,12 @@ public class AddFriendServlet extends HttpServlet {
                 //ArrayList friends = MiniProjectDBAO.removeFriend(username,patientUsername);
                 //RETURN PATIENTS WHO ARE NOT FRIENDS
                 //ArrayList ret = MiniProjectDBAO.queryPatients(username,alias);
-                
+
                 PatientDB.removeFriend(username,patientUsername);
                 
                 ArrayList<Patient> friends = PatientDB.getFriends(username);
                 ArrayList<Patient> ret = PatientDB.findNewFriends(username, alias);
-                
+
                 request.setAttribute("patientList",ret);
                 request.setAttribute("friendList",friends);
                 

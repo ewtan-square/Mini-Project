@@ -431,57 +431,76 @@ public class DoctorDBAO extends Query {
 //                arguments.add(username);
 //            }
             
-            if (firstname != null) {
+
+            if (!firstname.equals("")) {
+
                 statement += " AND first_name = ?";
                 arguments.add(firstname);
             }
 
-            if (lastname != null) {
+
+            if (!lastname.equals("")) {
+
                 statement += " AND last_name = ?";
                 arguments.add(lastname);
             }
 
-            if (province != null) {
+
+            if (!province.equals("")) {
+
                 statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
                         + "FROM Work_Address WHERE province = ?)";
                 arguments.add(province);
             }
             
-            if (postalcode != null) {
+
+            if (!postalcode.equals("")) {
+
                 statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
                         + "FROM Work_Address WHERE postal_code = ?)";
                 arguments.add(postalcode);
             }
 
-            if (city != null) {
+
+            if (!city.equals("")) {
+
                 statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
                         + "FROM Work_Address WHERE city = ?)";
                 arguments.add(city);
             }
 
-            if (street != null) {
+
+            if (!street.equals("")) {
+
                 statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
                         + "FROM Work_Address WHERE street_address = ?)";
                 arguments.add(street);
             }
 
-            if (license_year != null) {
+            if (license_year != 2013) {
+
                 statement += " AND license_year >= ?";
                 arguments.add("license_year");
             }
             
-            if (specialization != null) {
+
+            if (!specialization.equals("")) {
+
                 statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
                         + " FROM Specializations WHERE area = ?)";
                 arguments.add(specialization);
             }
             
-            if (rating_at_least != null) {
+
+            if (rating_at_least != 0) {
+
                 statement += " AND avg_rating > ?";
                 arguments.add("rating_at_least");
             }
             
-            if (recommended == true && patient_username != null) {
+
+            if (recommended == true && !patient_username.equals("")) {
+
                 statement += " AND Doctor.username IN (SELECT DISTINCT D_username "
                         + "FROM Review WHERE P_username IN ( " 
                         + "SELECT FRIEND_username FROM Friendship WHERE "
@@ -513,7 +532,9 @@ public class DoctorDBAO extends Query {
             DateFormat df = new SimpleDateFormat("yyyy/MM/dd"); 
             
             while(results.next()) {
-               String date = df.format(results.getString("DoB"));
+
+               String date = results.getString("DoB");
+
                String username = results.getString("username");
                Doctor doc = new Doctor(
                     username,
@@ -529,6 +550,9 @@ public class DoctorDBAO extends Query {
                 );
                 doc.setWorkAddress(getWorkAddresses(username));
                 doc.setSpecialization(getSpecializations(username));
+
+                doc.setAverageStarRating(results.getInt("avg_rating"));
+
                 result_doctors.add(doc);
             }
         }

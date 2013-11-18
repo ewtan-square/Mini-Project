@@ -65,7 +65,9 @@ public class PatientDB extends Query{
         
     }
     
+
     public static ArrayList<Patient> findNewFriends(String username, String keyword)
+
             throws ClassNotFoundException, SQLException {
         
         Connection con = null;
@@ -74,7 +76,8 @@ public class PatientDB extends Query{
 
         try {
             con = getConnection();
-                if (keyword == "") {
+
+            if (keyword == "") {
                 stmt = con.prepareStatement("SELECT * FROM Patient WHERE "
                         + "Patient.username <> ? AND Patient.username NOT IN ( " 
                         + "SELECT FRIEND_username FROM Friendship WHERE " 
@@ -91,18 +94,32 @@ public class PatientDB extends Query{
                 stmt.setString(2, username);    
                 stmt.setString(3, "%"+keyword+"%");    
             }
+
+            stmt = con.prepareStatement("SELECT * FROM Patient WHERE "
+                    + "Patient.username <> ? AND Patient.username NOT IN ( " 
+                    + "SELECT FRIEND_username FROM Friendship WHERE " 
+                    + "FRIENDER_username = ?");
+            stmt.setString(1, username);
+            stmt.setString(2, username);            
+            
+
             ResultSet results = stmt.executeQuery();
             
             DateFormat df = new SimpleDateFormat("yyyy/MM/dd");  
             
             while(results.next()) {
-                //String date = df.format(results.getString("DoB"));                
+
+
+                String date = df.format(results.getString("DoB"));                
+
                 new_friends.add(new Patient(
                         results.getString("username"),
                         results.getString("first_name"),
                         results.getString("gender"),
                         results.getString("last_name"),
-                        results.getString("DoB"),
+
+                        date,
+
                         results.getString("email"),
                         results.getString("province"),
                         results.getString("city"),
@@ -173,6 +190,7 @@ public class PatientDB extends Query{
         }
         return retval;
     }
+
     public static ArrayList<Patient> getAllPatients()
             throws ClassNotFoundException, SQLException {
         
@@ -297,10 +315,9 @@ public class PatientDB extends Query{
             }
             if (con != null) {
                     con.close();
-            }
-        }
-    }
-
+			}
+		}
+	}
     public static void removeFriend(String FRIENDER_username, String FRIEND_username)
                 throws ClassNotFoundException, SQLException {
             Connection con = null;
@@ -337,7 +354,8 @@ public class PatientDB extends Query{
                             con.close();
                     }
             }
-    }
+        }
+
     
     public static void removeReview(int R_ID)
                 throws ClassNotFoundException, SQLException {

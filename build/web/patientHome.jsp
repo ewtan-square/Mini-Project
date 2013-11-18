@@ -20,8 +20,11 @@
     %>
     </h2>
         <li><a href="DoctorResultsServlet?qnum=2">Review a Doctor (Page not created)</a></li>        
+<<<<<<< HEAD
+        <li><a href="doctorSearch.jsp">Find a Doctor (Page not created)</a></li>   
+=======
         <li><a href="doctorSearch.jsp">Find a Doctor (Page not created)</a></li>        
-
+>>>>>>> new_dev
         <style type="text/css" media="screen">
         input {
           border: none;
