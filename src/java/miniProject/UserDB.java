@@ -40,9 +40,12 @@ public class UserDB extends Query{
        
         Connection con = null;
         PreparedStatement stmt = null;
+        Boolean retval;
                         
         try {
             con = getConnection();
+            con.setAutoCommit(false);
+            con.setTransactionIsolation( Connection.TRANSACTION_SERIALIZABLE);
             if (username != null || password != null) {
                 
                 // Uses a secure Random not a simple Random
@@ -60,12 +63,15 @@ public class UserDB extends Query{
                 stmt.setString(2, hashedPassword);
                 stmt.setString(3, salt);
                 stmt.executeUpdate();
-                return true;
+                retval = true;
             }
             else {
-                return false;
+                retval = false;
             }
-        } 
+        }  catch(SQLException se){
+            con.rollback();
+            retval = false;
+        }  
         finally {
             if (stmt != null) {
                 stmt.close();
@@ -74,6 +80,7 @@ public class UserDB extends Query{
                 con.close();
             }
         }
+        return retval;
     }
     
     public static ArrayList<String> authenticate(String username, String password)

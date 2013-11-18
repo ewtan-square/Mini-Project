@@ -27,13 +27,16 @@ public class DoctorDBAO extends Query {
        
         Connection con = null;
         PreparedStatement stmt = null;
+        Boolean retval;
                         
         try {
             con = getConnection();
+            con.setAutoCommit(false);
+            con.setTransactionIsolation( Connection.TRANSACTION_SERIALIZABLE);
             if (D.getUsername() == null || D.getFirstName() == null || D.getGender() == null || D.getLastName() == null ||
                      D.getDOB() == null || D.getHomeProvince() == null || D.getHomeCity() == null || 
                     D.getHomePostalCode() == null || D.getHomeStreet() == null) {
-                return false;
+                retval = false;
             }
             else {
                 stmt = con.prepareStatement("INSERT INTO Doctor "
@@ -59,8 +62,11 @@ public class DoctorDBAO extends Query {
                 stmt.setString(9, D.getHomePostalCode());
                 stmt.setString(10, D.getHomeStreet());
                 stmt.executeUpdate();
-                return true;
+                retval = true;
             }
+        }  catch(SQLException se){
+            con.rollback();
+            retval = false;
         } 
         finally {
             if (stmt != null) {
@@ -70,6 +76,7 @@ public class DoctorDBAO extends Query {
                 con.close();
             }
         }
+        return retval;
     }
     
     public static ArrayList<Doctor> getAllDoctors()
@@ -285,6 +292,8 @@ public class DoctorDBAO extends Query {
 
         try {
             con = getConnection();
+            con.setAutoCommit(false);
+            con.setTransactionIsolation( Connection.TRANSACTION_SERIALIZABLE);
             stmt = con.prepareStatement("SELECT * FROM Work_Address "
                     + "WHERE ? = D_username AND ? = province AND ? = city AND ? = postal_code AND ? = street_address;");
             stmt.setString(1, username);
@@ -308,7 +317,9 @@ public class DoctorDBAO extends Query {
                 stmt.executeUpdate();
             }
 
-        } finally {
+        } catch(SQLException se){
+            con.rollback();
+        }  finally {
             if (stmt != null) {
                 stmt.close();
             }

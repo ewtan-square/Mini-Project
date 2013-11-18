@@ -26,13 +26,16 @@ public class PatientDB extends Query {
        
         Connection con = null;
         PreparedStatement stmt = null;
+        Boolean retval;
                         
         try {
             con = getConnection();
+            con.setAutoCommit(false);
+            con.setTransactionIsolation( Connection.TRANSACTION_SERIALIZABLE);
             if (P.getUsername() == null || P.getFirstName() == null || P.getGender() == null || P.getLastName() == null ||
                      P.getDOB() == null || P.getHomeProvince() == null || P.getHomeCity() == null || 
                     P.getHomePostalCode() == null || P.getHomeStreet() == null || P.getEmail() == null) {
-                return false;
+                retval = false;
             }
             else {
                 stmt = con.prepareStatement("INSERT INTO Patient "
@@ -49,13 +52,12 @@ public class PatientDB extends Query {
                 stmt.setString(9, P.getHomePostalCode());
                 stmt.setString(10, P.getHomeStreet());
                 stmt.executeUpdate();
-                return true;
+                retval = true;
             }
         } 
-        catch (Exception e) {
-            if (e instanceof SQLException) {
-                throw new SQLException(e);
-            }
+        catch (SQLException se) {
+                con.rollback();
+                retval = false;
         }
         finally {
             if (stmt != null) {
@@ -65,7 +67,7 @@ public class PatientDB extends Query {
                 con.close();
             }
         }
-        return false;
+        return retval;
     }
     public static ArrayList<Patient> getAllPatients()
             throws ClassNotFoundException, SQLException {
