@@ -133,6 +133,49 @@ public class DoctorDBAO extends Query {
         }
     }
     
+
+    public static ArrayList<Review> getDoctorReviews(String username)
+            throws ClassNotFoundException, SQLException {
+        
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ArrayList<Review> reviews;
+        
+        try {
+            con = getConnection();
+            stmt = con.prepareStatement("SELECT * FROM Review WHERE D_username = ?;");
+            stmt.setString(1, username);
+            
+            ResultSet results = stmt.executeQuery();
+            reviews = new ArrayList<Review>();
+            DateFormat df = new SimpleDateFormat("yyyy/MM/dd"); 
+            
+            while(results.next()) {
+                String date = df.format(results.getDate("review_date"));
+                reviews.add(new Review(
+                        results.getString("D_username"),
+                        results.getString("P_username"),
+                        results.getInt("R_ID"),
+                        results.getInt("Rating"),
+                        results.getBoolean("recommendation"),
+                        results.getString("comment"),
+                        date
+                ));
+            }
+            
+            return reviews;
+        }
+        finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+            
+
     public static void newWorkAddress(String username, WorkAddress wa)
             throws ClassNotFoundException, SQLException {
         Connection con = null;
