@@ -125,8 +125,7 @@ public class newUserServlet extends HttpServlet {
         ArrayList<Patient> tmp2 = new ArrayList<Patient>();
         Patient em = new Patient(
             username, userFirstName, gender, userLastName, birthday,
-            email, province, city, postalcode, streetAddress, 
-            tmp2);
+            email, province, city, postalcode, streetAddress);
         // miniProject.addEmployee(em);
         // ArrayList ret = miniProject.getEmployees();
         // request.setAttribute("employeeList", ret);

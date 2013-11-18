@@ -38,7 +38,7 @@ public class loginPageServlet extends HttpServlet {
         String url;
         try {
             //String accType = UserDB.getAccountType(username); 
-            String accType = "admin";
+            String accType = "patient";
             request.setAttribute("username", username);
             if (accType == "patient") {
                 //request.getSession().setAttribute("doctor", url);

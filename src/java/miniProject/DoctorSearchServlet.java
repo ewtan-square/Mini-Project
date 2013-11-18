@@ -76,7 +76,9 @@ public class DoctorSearchServlet extends HttpServlet {
         ArrayList<Review> tmp3 = new ArrayList<Review>();
         ArrayList<String> tmp4 = new ArrayList<String>();
         Doctor temp;
-        temp = new Doctor("rfmaducd","Ray","Maducdoc","male","1992-12-16",1998,"Ontario","PoopCity","1234","Osas");
+        temp = new Doctor("ewtan","Ray","Maducdoc","male","1992-12-16",1998,"Ontario","PoopCity","1234","Osas");
+        temp.setWorkAddress(tmp);
+        temp.setSpecialization(tmp4);
         ret.add(temp);
         request.setAttribute("doctorList", ret);
 //        ArrayList ret = MiniProjectDBAO.queryDoctor(firstName, lastName, gender, dob, specialization,

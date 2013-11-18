@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.text.DateFormat;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import static miniProject.Query.getConnection;
 
@@ -35,6 +36,54 @@ public class DoctorDBAO extends Query {
             while(results.next()) {
                 String date = df.format(results.getDate("DoB"));
                 String username = results.getString("username");
+                Doctor doc = new Doctor(
+                    username,
+                    results.getString("first_name"),
+                    results.getString("last_name"),
+                    results.getString("gender"),
+                    date,
+                    results.getInt("license_year"),
+                    results.getString("province"),
+                    results.getString("city"),
+                    results.getString("postal_code"),
+                    results.getString("street_address")                        
+                );
+                
+                doc.setWorkAddress(getWorkAddresses(username));
+                doc.setSpecialization(getSpecializations(username));
+                doctors.add(doc);
+            }
+           
+        }
+        finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return doctors;
+        
+    }
+    
+    public static ArrayList<Doctor> queryDoctor(String username)
+            throws ClassNotFoundException, SQLException {
+        
+        Connection con = null;
+        ArrayList<Doctor> doctors = new ArrayList<Doctor>();
+        PreparedStatement stmt = null;
+        try {
+            con = getConnection();
+            stmt = con.prepareStatement("SELECT * FROM Doctor WHERE ? = username;");
+            stmt.setString(1, username);
+            ResultSet results = stmt.executeQuery();
+            
+            DateFormat df = new SimpleDateFormat("yyyy/MM/dd");  
+            
+            while(results.next()) {
+                String date = df.format(results.getDate("DoB"));
+                //String username = results.getString("username");
                 Doctor doc = new Doctor(
                     username,
                     results.getString("first_name"),
@@ -159,7 +208,7 @@ public class DoctorDBAO extends Query {
                         results.getInt("R_ID"),
                         results.getInt("Rating"),
                         results.getBoolean("recommendation"),
-                        results.getString("comment"),
+                        results.getString("comment_text"),
                         date
                 ));
             }
@@ -216,6 +265,40 @@ public class DoctorDBAO extends Query {
             }
         }
     }
+    
+    public static void newDoctorReview(String docUsername, String patUsername, 
+            int rating, Boolean recommendation, String comments)
+            throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        try {
+            con = getConnection();
+            stmt = con.prepareStatement("INSERT INTO Review VALUES (?,?,?,?,?,?,?);");
+            DateFormat df = new SimpleDateFormat("yyyy/MM/dd"); 
+            Date date = new Date();
+            
+            
+            
+            stmt.setString(1, docUsername);
+            stmt.setString(2, patUsername);
+            stmt.setNull(3, 3);
+            stmt.setString(4, df.format(date));
+            stmt.setInt(5, rating);
+            stmt.setBoolean(6, recommendation);
+            stmt.setString(7, comments);
+            stmt.executeUpdate();
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+    
 
     public static void newSpecialization(String username, String area)
             throws ClassNotFoundException, SQLException {

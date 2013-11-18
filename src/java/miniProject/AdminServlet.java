@@ -36,9 +36,7 @@ public class AdminServlet extends HttpServlet {
         
         try {
             if(intQueryNum == 1){
-//                ArrayList ret = DoctorDBAO.getAllPatients();
-//                request.setAttribute("patientList", ret);
-                ArrayList<Patient> ret = new ArrayList<Patient>();
+                ArrayList ret = PatientDB.getAllPatients();
                 request.setAttribute("patientList", ret);
                 url="/viewPatients.jsp";
             }
