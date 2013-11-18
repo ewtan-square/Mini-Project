@@ -36,7 +36,7 @@ public class loginPageServlet extends HttpServlet {
         
         String url;
         try {
-            String accType = "patient"; // MiniProject.getAccountType(username);
+            String accType = "doctor"; // MiniProject.getAccountType(username);
             request.setAttribute("username", username);
             if (accType == "patient") {
                 //request.getSession().setAttribute("doctor", url);

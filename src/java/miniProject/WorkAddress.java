@@ -19,7 +19,7 @@ public class WorkAddress {
     {
         this.username=username;
         this.province=province;
-        this.city=city;
+        this.city=City;
         this.postalCode=postalCode;
         this.street=street;
     }

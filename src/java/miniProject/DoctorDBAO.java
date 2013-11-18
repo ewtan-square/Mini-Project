@@ -74,7 +74,7 @@ public class DoctorDBAO extends Query {
         try {
             con = getConnection();
             stmt = con.prepareStatement("SELECT * FROM Work_Address WA inner join "
-                    + "Account A ON A.username = WA.username WHERE ? = A.username;");
+                    + "Account A ON A.username = WA.D_username WHERE ? = A.username;");
             stmt.setString(1, username);
             
             ResultSet resultSet = stmt.executeQuery();
