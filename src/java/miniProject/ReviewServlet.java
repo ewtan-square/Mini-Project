@@ -32,9 +32,16 @@ public class ReviewServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url;
         String strDocUsername = request.getParameter("docUsername");
         request.setAttribute("docUsername", strDocUsername);
+        String accType = (String)request.getSession().getAttribute("accType");
+        String url="";
+        
+        if(!accType.equals("patient")){
+            url="/fancyError.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+            return;
+        }
         try {
             url = "/viewReviews.jsp";
 //            if(strDocUsername == null || strDocUsername.equals("")){

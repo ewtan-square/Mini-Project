@@ -30,17 +30,27 @@ public class ReviewResultsServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url;
+        String url="";
         String strQueryNum = request.getParameter("qnum");
         int intQueryNum = Integer.parseInt(strQueryNum);
         String strReviewID = request.getParameter("revNum");
         int revID = Integer.parseInt(strReviewID);
+        
+        Boolean range = (Boolean)request.getSession().getAttribute("range");
+        String date = (String)request.getSession().getAttribute("date");
+        String keyword = (String)request.getSession().getAttribute("keyword");
+        
+        String accType = (String)request.getSession().getAttribute("accType");
+        if(!accType.equals("admin")){
+            url="/fancyError.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+            return;
+        }
         try {
             if(intQueryNum == 1)
             {
-                //removeReview(revID);
-                //Array ret = queryReviews(null,"","");
-                ArrayList<Review> ret = new ArrayList<Review>();
+                AdminDBAO.removeReview(revID);
+                ArrayList ret = AdminDBAO.queryReviews(range,date,keyword);
                 request.setAttribute("reviewList", ret);
                 url = "/reviewResults.jsp";
             }
@@ -48,6 +58,8 @@ public class ReviewResultsServlet extends HttpServlet {
             request.setAttribute("exception", e);
             url = "/fancyError.jsp";
         }
+        
+        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
