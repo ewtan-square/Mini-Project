@@ -382,5 +382,30 @@ public class DoctorDBAO extends Query {
         
         return result_doctors;
     }
-    
+
+    public static ArrayList<String> getAllSpecializations()
+            throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        Statement stmt = null;
+        ArrayList<String> specializations;
+        try {
+            con = getConnection();
+            stmt = con.createStatement();
+            specializations = new ArrayList<String>();
+            ResultSet resultSet = stmt.executeQuery("SELECT UNIQUE area FROM "
+                    + "Doctor_Specialization;");
+            
+            while(resultSet.next()) {
+                specializations.add(resultSet.getString("area"));
+            }
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return specializations;
+    }
 }
