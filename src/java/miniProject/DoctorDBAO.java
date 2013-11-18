@@ -20,7 +20,7 @@ import static miniProject.Query.getConnection;
  * @author jonathan
  */
 public class DoctorDBAO extends Query {
-    
+    //TESTED
     public static boolean createDoctor(Doctor D)
            throws SQLException, ClassNotFoundException
     {
@@ -79,6 +79,7 @@ public class DoctorDBAO extends Query {
         return retval;
     }
     
+    //TESTED
     public static ArrayList<Doctor> getAllDoctors()
             throws ClassNotFoundException, SQLException {
         
@@ -126,6 +127,7 @@ public class DoctorDBAO extends Query {
         
     }
     
+    //TESED
     public static ArrayList<Doctor> queryDoctor(String username)
             throws ClassNotFoundException, SQLException {
         
@@ -174,7 +176,7 @@ public class DoctorDBAO extends Query {
         
     }
     
-    
+    //TESTED
     public static ArrayList<WorkAddress> getWorkAddresses(String username)
             throws ClassNotFoundException, SQLException {
         Connection con = null;
@@ -242,7 +244,7 @@ public class DoctorDBAO extends Query {
         }
     }
     
-
+    //TESTED
     public static ArrayList<Review> getDoctorReviews(String username)
             throws ClassNotFoundException, SQLException {
         
@@ -329,6 +331,7 @@ public class DoctorDBAO extends Query {
         }
     }
     
+    //TESTED
     public static void newDoctorReview(String docUsername, String patUsername, 
             int rating, Boolean recommendation, String comments)
             throws ClassNotFoundException, SQLException {
@@ -550,7 +553,7 @@ public class DoctorDBAO extends Query {
             con = getConnection();
             stmt = con.createStatement();
             specializations = new ArrayList<String>();
-            ResultSet resultSet = stmt.executeQuery("SELECT UNIQUE area FROM "
+            ResultSet resultSet = stmt.executeQuery("SELECT DISTINCT area FROM "
                     + "Doctor_Specialization;");
             
             while(resultSet.next()) {

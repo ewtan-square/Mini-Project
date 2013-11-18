@@ -35,6 +35,13 @@ public class ReviewResultsServlet extends HttpServlet {
         int intQueryNum = Integer.parseInt(strQueryNum);
         String strReviewID = request.getParameter("revNum");
         int revID = Integer.parseInt(strReviewID);
+        
+        String accType = (String)request.getSession().getAttribute("accType");
+        if(!accType.equals("admin")){
+            url="/fancyError.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+            return;
+        }
         try {
             if(intQueryNum == 1)
             {

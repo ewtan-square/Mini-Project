@@ -30,10 +30,24 @@ public class FriendSearchServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+<<<<<<< HEAD
         String searchQuery = (request.getParameter("type") != null) ? request.getParameter("type") : "";
 
         String url;
         String alias; 
+=======
+        String accType = (String)request.getSession().getAttribute("accType");
+        String url="";
+        
+        if(!accType.equals("patient"))
+        {
+            url="/fancyError.jsp";
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+            return;
+        }
+        String searchQuery = request.getParameter("type");
+        String alias = request.getParameter("alias");
+>>>>>>> new_master_3
         String username = (String)request.getSession().getAttribute("username");
         request.setAttribute("username", username);
         

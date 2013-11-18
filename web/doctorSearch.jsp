@@ -3,7 +3,8 @@
     Created on : 16-Nov-2013, 11:35:58 PM
     Author     : Francis
 --%>
-
+<%@page import="java.util.ArrayList"%>
+<%@page import="miniProject.DoctorDBAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,6 +12,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>RateMyDoctor</title>
     </head>
+    <%! ArrayList<String> specializations;%>
+    <% specializations = DoctorDBAO.getAllSpecializations();%>
     <body>
         <h1>Doctor Search</h1>
         <form method="post" action="DoctorSearchServlet">
@@ -21,8 +24,19 @@
                     <option value="M">Male</option>
                     <option value="F">Female</option>
                 </select><br/>
-                Date of Birth (selected date or later): <input type="date" name="birthday" size="20"><br/>
-                Specialization (You can add more later): <input type="text" name="specialization" size="20"><br/>
+                Specialization (You can add more later): <select name="specialization">
+                    <option value =""></option>
+                    <%
+                    if(specializations != null)
+                    {
+                        for(String spec : specializations){
+                            %>
+                            <option value="<%=spec%>"><%=spec%></option>
+                            <%
+                        }
+                    }
+                    %>
+                </select><br/>
                 License Year (selected year or older): <select name="licenseYear"> 
                     <option value =""></option>
                     <%
