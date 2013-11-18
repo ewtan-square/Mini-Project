@@ -39,12 +39,16 @@ public class FriendSearchServlet extends HttpServlet {
             getServletContext().getRequestDispatcher(url).forward(request, response);
             return;
         }
+        String searchQuery = request.getParameter("type");
         String alias = request.getParameter("alias");
+        String username = (String)request.getSession().getAttribute("username");
+        request.setAttribute("username", username);
+        
         try {
             /* TODO output your page here. You may use following sample code. */
             //ArrayList ret = MiniProjectDBAO.queryPatients(username,alias);
             //ArrayList friend = MiniProjectDBAO.queryFriends(username);
-            ArrayList<Patient> friends = new ArrayList<Patient>();
+            ArrayList<Patient> friends = PatientDB.getFriends(username);
             ArrayList<Patient> ret = new ArrayList<Patient>();
             Patient temp;
             temp = new Patient("harvey","","","","","","","","","");

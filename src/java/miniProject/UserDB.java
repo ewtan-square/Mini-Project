@@ -176,7 +176,7 @@ public class UserDB extends Query{
             resultSet = stmt.executeQuery();
             
             if (resultSet.next()) {
-                return "Admin";
+                return "admin";
             }
             
             return "";
