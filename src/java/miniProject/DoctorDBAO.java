@@ -274,6 +274,8 @@ public class DoctorDBAO extends Query {
 
         try {
             con = getConnection();
+            con.setAutoCommit(false);
+            con.setTransactionIsolation( Connection.TRANSACTION_SERIALIZABLE);
             stmt = con.prepareStatement("INSERT INTO Review VALUES (?,?,?,?,?,?,?);");
             DateFormat df = new SimpleDateFormat("yyyy/MM/dd"); 
             Date date = new Date();
@@ -289,6 +291,8 @@ public class DoctorDBAO extends Query {
             stmt.setString(7, comments);
             stmt.executeUpdate();
 
+        } catch(SQLException se){
+            con.rollback();
         } finally {
             if (stmt != null) {
                 stmt.close();
@@ -307,6 +311,8 @@ public class DoctorDBAO extends Query {
 
         try {
             con = getConnection();
+            con.setAutoCommit(false);
+            con.setTransactionIsolation( Connection.TRANSACTION_SERIALIZABLE);
             stmt = con.prepareStatement("SELECT * FROM Doctor_Specialization "
                     + "WHERE ? = D_username AND ? = area;");
             stmt.setString(1, username);
@@ -327,6 +333,8 @@ public class DoctorDBAO extends Query {
                 
             }
 
+        } catch(SQLException se){
+            con.rollback();
         } finally {
             if (stmt != null) {
                 stmt.close();
