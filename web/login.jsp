@@ -10,6 +10,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login to Rate My Doctor</title>
+        <%! String ErrorMessage = "";%>
+        <% ErrorMessage = (String) request.getAttribute("loginError"); %>
+        <% 
+            if (ErrorMessage != null) { 
+        %>
+            Warning: <%= ErrorMessage%>!
+        <% 
+            } 
+        %>
     </head>
     <body>
         <h1>Login Now!</h1>

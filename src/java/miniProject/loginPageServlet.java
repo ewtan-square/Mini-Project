@@ -30,13 +30,17 @@ public class loginPageServlet extends HttpServlet {
             throws ServletException, IOException {
         String username = (String)request.getParameter("username");
         String password = (String)request.getParameter("userPass");
+        String saltedpass;
+        String salt = "";
         
         request.getSession().setAttribute("username", username);
         request.getSession().setAttribute("userPass", password);
-        
+                
         String url;
         try {
-            String accType = "doctor"; // MiniProject.getAccountType(username);
+            salt = UserDB.getAccountSalt("username");
+            saltedpass = password + salt;
+            String accType = UserDB.getAccountType(username); 
             request.setAttribute("username", username);
             if (accType == "patient") {
                 //request.getSession().setAttribute("doctor", url);
@@ -49,7 +53,8 @@ public class loginPageServlet extends HttpServlet {
                 url = "/adminHome.jsp";
             }
             else {
-                url = "/fancyError.jsp";
+                request.setAttribute("loginError", (String)"Invalid Login Credentials, don't screw it up again.");
+                url = "/login.jsp";
             }
         } catch (Exception e) {
             request.setAttribute("exception", e);
