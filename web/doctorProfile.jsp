@@ -55,10 +55,10 @@
         <h1>Doctor Specialties</h1>
         <h2>Add a Specialty</h2>
         <form method="post" action="UpdateDoctorServlet?type=specialization">
-        Enter the following information:
-        <p>   
-            Area: <input type="text" name="province" size="20"><br/>
-        </p> <input type="submit" value="Submit">
+            Enter the following information:
+            <p> 
+                Area: <input type="text" name="area" size="20"><br/>
+            </p> <input type="submit" value="Submit">
         </form>
         <%
             if (specializationList != null) {

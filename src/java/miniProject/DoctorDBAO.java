@@ -101,6 +101,8 @@ public class DoctorDBAO extends Query {
         }
     }
     
+    
+    
     public static ArrayList<String> getSpecializations(String username)
             throws ClassNotFoundException, SQLException {
         Connection con = null;
@@ -130,5 +132,82 @@ public class DoctorDBAO extends Query {
             }
         }
     }
+    
+     public static void newWorkAddress(String username, WorkAddress wa)
+            throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement stmt = null;
 
+        try {
+            con = getConnection();
+            stmt = con.prepareStatement("SELECT * FROM Work_Address "
+                    + "WHERE ? = username AND ? = province AND ? = city AND ? = postal_code AND \"?\" = street_address;");
+            stmt.setString(1, username);
+            stmt.setString(2, wa.getProvince());
+            stmt.setString(3, wa.getCity());
+            stmt.setString(4, wa.getPostalCode());
+            stmt.setString(5, wa.getStreet());
+            ResultSet resultSet = stmt.executeQuery();
+            int count = 0;
+            while (resultSet.next()) { count++; }
+            
+            if (count == 0) {
+                stmt = con.prepareStatement(
+                            "INSERT INTO Work_Address VALUES (?,?,?,?,?);"
+                       );
+                stmt.setString(1, username);
+                stmt.setString(2, wa.getProvince());
+                stmt.setString(3, wa.getCity());
+                stmt.setString(4, wa.getPostalCode());
+                stmt.setString(5, wa.getStreet());
+                stmt.executeUpdate();
+            }
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
+    public static void newSpecialization(String username, String area)
+            throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement stmt = null;
+
+        try {
+            con = getConnection();
+            stmt = con.prepareStatement("SELECT * FROM Doctor_Specialization "
+                    + "WHERE ? = username AND '?' = area;");
+            stmt.setString(1, username);
+            stmt.setString(2, area);
+            ResultSet resultSet = stmt.executeQuery();
+            int count = 0;
+            while (resultSet.next()) { count++; }
+            
+            if (count == 0) {
+            stmt = con.prepareStatement(
+                        "INSERT INTO Doctor_Specialization VALUES (?,?);"
+                   );
+            stmt.setString(1, username);
+            stmt.setString(2, area);
+            stmt.executeUpdate();
+            }
+            else {
+                
+            }
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+    
 }
